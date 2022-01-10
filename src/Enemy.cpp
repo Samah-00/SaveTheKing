@@ -1,7 +1,7 @@
 #include "Enemy.h"
 #include <iostream>
 
-Enemy::Enemy(sf::Texture& image, float x, float y) : MovingObject(image, x, y), m_currDir(72)
+Enemy::Enemy(sf::Texture& image, float x, float y) : MovingObject(image, x, y), m_currDir(72), m_enemySpeed(50.f)
 {
 	m_enemy1 = image;
 	m_enemy2.loadFromFile("Enemy2.png");
@@ -27,8 +27,7 @@ void Enemy::draw(sf::RenderWindow& window)
 int Enemy::move(sf::Time deltaTime, const char* NextStep)
 {
 	int moveStatus = 0;
-	const auto speedPerSecond = 30.f;
-	m_image.move(m_direction * speedPerSecond * deltaTime.asSeconds());
+	m_image.move(m_direction * m_enemySpeed * deltaTime.asSeconds());
 	return moveStatus;
 }
 

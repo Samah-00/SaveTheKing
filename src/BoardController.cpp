@@ -198,6 +198,19 @@ void BoardController::handleArrowPressed(sf::Keyboard::Key key)
     case 10:
         m_Sounds[1].play();
         break;
+    case 11:
+        m_board[round(temp.y)][round(temp.x)] = nullptr;
+        break;
+    case 12:
+    {
+        m_board[round(temp.y)][round(temp.x)] = nullptr;
+        for (int index = 0; index < m_enemies.size(); index++)
+        {
+            m_enemies[index]->speedUpEnemy();
+        }
+    }
+        
+        break;
     }
 }
 const char* BoardController::getNextStep(sf::Time deltaTime, sf::Vector2f temp)

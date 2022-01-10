@@ -20,6 +20,8 @@
 #include "IncreaseTimePresent.h"
 #include "DecreaseTimePresent.h"
 #include "executeEnemyPresent.h"
+#include "HealingKitPresent.h"
+#include "SpeedUpPresent.h"
 
 inline auto font1 = sf::Font();
 

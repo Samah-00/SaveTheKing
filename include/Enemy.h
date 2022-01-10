@@ -12,10 +12,12 @@ public:
 	void setDirection(int key);
 	void setCurrDir(int dir) { m_currDir = dir; };
 	int getCurrDir() { return m_currDir; };
+	void speedUpEnemy() { m_enemySpeed *= 2; };
 	~Enemy() = default;
 
 private:
 	int m_currDir;
 	sf::Texture m_enemy1;
 	sf::Texture m_enemy2;
+	float m_enemySpeed;
 };

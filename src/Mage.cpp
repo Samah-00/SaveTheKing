@@ -43,6 +43,14 @@ int Mage::move(sf::Time deltaTime, const char* NextStep)
 		m_numOfLives--;
 		return 10;
 	}
+	if (NextStep[6] == 'H')
+	{
+		m_numOfLives++;
+		moveStatus = 11;
+	}
+
+	if (NextStep[6] == 'S')
+		moveStatus = 12;
 	if (deltaTime.asSeconds() > 3.f)
 	{
 		sf::Clock temp;
