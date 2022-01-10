@@ -11,6 +11,7 @@ public:
 	const char* getNextStep(sf::Time deltaTime, sf::Vector2f temp);
 	void MoveEnemy(int enemyIndex);
 	void handleArrowPressed(sf::Keyboard::Key key);
+	void ShowResult(sf::Texture result);
 
 private:
 	int m_TimeLeft;

@@ -18,7 +18,7 @@ bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
         arrow.setPosition(arrowPos_x, arrowPos_y);
         if (m_success)
         {
-            sf::RenderWindow successWindow(sf::VideoMode(m_levelSize.x * 20, m_levelSize.y * 20), " ** SUCCESS ** ");//do the enum / 45 = wall height/width / 150 = for the info
+            ShowResult(m_textures[16]);
             window.close();
         }
             
@@ -44,12 +44,12 @@ bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
         
         m_clock.getElapsedTime();
         m_TimeLeft = int(m_timer - m_clock.getElapsedTime().asSeconds());
-        levelData.initializeData(m_player, m_thiefHasKey, m_TimeLeft, timeLimitedLevel);
+        levelData.initializeData(m_player, m_thiefHasKey, m_TimeLeft, timeLimitedLevel, m_characters[m_player]->getNumOfLives());
         levelData.draw(window, m_clock);
         window.display();
-        if (timeLimitedLevel && m_TimeLeft == 0)
+        if ((timeLimitedLevel && m_TimeLeft == 0) || m_characters[m_player]->getNumOfLives() == 0)
         {
-            //make a window that tells you to reply
+            ShowResult(m_textures[17]);
             return m_success;
         }
         if (auto event = sf::Event{}; window.pollEvent(event))
@@ -64,6 +64,27 @@ bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
                 break;
             }
         }
+    }
+}
+
+void BoardController::ShowResult(sf::Texture result)
+{
+    sf::RenderWindow resultWindow(sf::VideoMode(result.getSize().x, result.getSize().y), " ** LEVEL\'S RESULT ** ");
+    sf::Sprite resultImg(result);
+    while (resultWindow.isOpen())
+    {
+        resultWindow.clear();
+        resultWindow.draw(resultImg);
+        resultWindow.display();
+
+        if (auto event = sf::Event{}; resultWindow.waitEvent(event))
+            switch (event.type)
+            {
+            case sf::Event::Closed:
+            case sf::Event::KeyPressed:
+                resultWindow.close();
+                break;
+            }
     }
 }
 

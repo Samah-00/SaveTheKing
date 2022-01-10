@@ -7,7 +7,7 @@ Board::Board() : m_player(0), m_timer(0), m_thiefHasKey(false), m_success(false)
     //set background
     m_background.loadFromFile("GameBackGround.jpg");
     m_clock.restart();
-    m_textures.resize(16); //6 = number of characters
+    m_textures.resize(18); //6 = number of characters
     m_SoundsBuffer.resize(9);
     m_textures[0].loadFromFile("Fire.png");
     m_textures[1].loadFromFile("Gate2.png");
@@ -25,6 +25,8 @@ Board::Board() : m_player(0), m_timer(0), m_thiefHasKey(false), m_success(false)
     m_textures[13].loadFromFile("downPresent.png");
     m_textures[14].loadFromFile("killPresent.png");
     m_textures[15].loadFromFile("Arrow.png");
+    m_textures[16].loadFromFile("LevelUp.png");
+    m_textures[17].loadFromFile("GameOver.jpg");
     m_SoundsBuffer[0].loadFromFile("swordSound.wav");
     m_SoundsBuffer[1].loadFromFile("GhostSound.wav");
     m_SoundsBuffer[2].loadFromFile("teleportSound.wav");

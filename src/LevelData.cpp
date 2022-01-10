@@ -10,12 +10,13 @@ m_timeLimitedLevel(false)
 	m_font.loadFromFile("C:/Windows/Fonts/broadw.ttf");
 }
 
-void LevelData::initializeData(int player, bool key, int timeLeft, bool timeLimitedLevel)
+void LevelData::initializeData(int player, bool key, int timeLeft, bool timeLimitedLevel, int lives)
 {
 	m_player = player;
 	m_thiefHasKey = key;
 	m_timeLeft = timeLeft;
 	m_timeLimitedLevel = timeLimitedLevel;
+	m_numOfLives = lives;
 }
 
 
@@ -38,8 +39,9 @@ void LevelData::updateLevelData(sf::Clock clock)
 	m_keyData = (m_thiefHasKey ? "Yes" : "No");
 
 	m_titels.push_back(sf::Text("Level No.", m_font));
-	m_titels.push_back(sf::Text("Currently Playing", m_font));
+	m_titels.push_back(sf::Text("Playing Now", m_font));
 	m_titels.push_back(sf::Text("Have key?", m_font));
+	m_titels.push_back(sf::Text("Num Of Lives", m_font));
 	m_titels.push_back(sf::Text("Time passed", m_font));
 	if (m_timeLimitedLevel)
 		m_titels.push_back(sf::Text("Time left", m_font));
@@ -47,6 +49,7 @@ void LevelData::updateLevelData(sf::Clock clock)
 	m_data.push_back(sf::Text(std::to_string(m_levelNum), m_font));
 	m_data.push_back(sf::Text(m_currCharacter, m_font));
 	m_data.push_back(sf::Text(m_keyData, m_font));
+	m_data.push_back(sf::Text(std::to_string(m_numOfLives), m_font));
 	m_data.push_back(sf::Text(std::to_string(int(clock.getElapsedTime().asSeconds())), m_font));
 	if (m_timeLimitedLevel)
 		m_data.push_back(sf::Text(std::to_string(m_timeLeft), m_font));
@@ -54,7 +57,7 @@ void LevelData::updateLevelData(sf::Clock clock)
 
 void LevelData::setDataDesign()
 {
-	int num_of_data = m_timeLimitedLevel ? 5 : 4;
+	int num_of_data = m_timeLimitedLevel ? 6 : 5;
 	for (int counter = 0; counter < m_titels.size(); counter++)
 	{
 		sf::Vector2f titelLoc(float(((m_levelSize.x * 45) / num_of_data) * counter), float(45 * m_levelSize.y));
