@@ -1,0 +1,6 @@
+To switch between the character press p.
+To move right press the right arrow.
+To move left press the left arrow.
+To move up press the up arrow.
+To move down press the down arrow.
+Click on a character bellow for more information about it.

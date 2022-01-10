@@ -1,0 +1,16 @@
+﻿target_sources (${CMAKE_PROJECT_NAME} PRIVATE "main.cpp"
+                                               "Controller.cpp"
+                                               "HomePage.cpp"
+                                               "Level.cpp"
+                                               "TimeLimitedLevel.cpp"
+                                               "LevelData.cpp"
+                                               "MovingObject.cpp"
+                                               "BoardController.cpp"
+                                               "Board.cpp"
+                                               "Help.cpp"
+                                               "King.cpp"
+                                               "Mage.cpp"
+                                               "Warrior.cpp"
+                                               "Thief.cpp"
+                                               "Enemy.cpp")
+

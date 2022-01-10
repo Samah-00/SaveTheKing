@@ -1,0 +1,3 @@
+This is the increase time gift.
+It gives the player extra five seconds.
+All the characters can collect the gift by walking on it.

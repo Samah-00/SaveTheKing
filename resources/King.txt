@@ -1,0 +1,6 @@
+Meet the king.
+He can walk on empty tiles.
+He can walk on keys but he can't pick them up.
+He can also travel through teleport cells.
+Lastly, he can enter his castle.
+The player wins the level when the king reaches his castle.
