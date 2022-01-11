@@ -38,22 +38,22 @@ int Warrior::move(sf::Time deltaTime, const char* NextStep)
 	if (NextStep[6] == 'e')
 		moveStatus = S_KILL_PRESENT;
 	if (NextStep[6] == 'I')
-		moveStatus = 8;
+		moveStatus = S_EXTRA_TIME_PRESENT;
 	if (NextStep[6] == 'D')
-		moveStatus = 9;
+		moveStatus = S_LESS_TIME_PRESENT;
 	if (NextStep[6] == 'E')
 	{
 		m_numOfLives--;
-		return 10;
+		return S_GHOST;
 	}
 	if (NextStep[6] == 'H')
 	{
 		m_numOfLives++;
-		moveStatus = 11;
+		moveStatus = S_HEALING_KIT;
 	}
 
 	if (NextStep[6] == 'S')
-		moveStatus = 12;
+		moveStatus = S_SPEEDUP_PRESENT;
 	if (deltaTime.asSeconds() > 3.f)
 	{
 		sf::Clock temp;

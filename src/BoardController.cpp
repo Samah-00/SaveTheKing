@@ -185,23 +185,23 @@ void BoardController::handleArrowPressed(sf::Keyboard::Key key)
         m_board[round(temp.y)][round(temp.x)] = nullptr;
         m_enemies.clear();
         break;
-    case 8:
+    case S_EXTRA_TIME_PRESENT:
         m_Sounds[8].play();
         m_board[round(temp.y)][round(temp.x)] = nullptr;
         m_timer += 5;
         break;
-    case 9:
+    case S_LESS_TIME_PRESENT:
         m_Sounds[7].play();
         m_board[round(temp.y)][round(temp.x)] = nullptr;
         m_timer -= 5;
         break;
-    case 10:
+    case S_GHOST:
         m_Sounds[1].play();
         break;
-    case 11:
+    case S_HEALING_KIT:
         m_board[round(temp.y)][round(temp.x)] = nullptr;
         break;
-    case 12:
+    case S_SPEEDUP_PRESENT:
     {
         m_board[round(temp.y)][round(temp.x)] = nullptr;
         for (int index = 0; index < m_enemies.size(); index++)
@@ -220,7 +220,7 @@ const char* BoardController::getNextStep(sf::Time deltaTime, sf::Vector2f temp)
         NextStep = typeid(*m_board[round(temp.y)][round(temp.x)]).name();
     for (int index = 0 ; index < m_enemies.size(); index++)
     {
-        sf::Vector2f temp2 = m_enemies[index]->getPosition() / 45.0f;
+        sf::Vector2f temp2 = m_enemies[index]->getPosition() / float(m_iconSize);
             if (temp2.x - 0.5f <= temp.x && temp.x <= temp2.x + 0.5f &&
                 temp2.y - 0.5f <= temp.y && temp.y <= temp2.y + 0.5f)
             NextStep = "class Enemy";
