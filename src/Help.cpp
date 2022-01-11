@@ -1,7 +1,7 @@
 #include "Help.h"
 
-enum CONSTS { NUM_OF_ICONS = 4, CHAR_SIZE = 30 };
-enum Icons { KING, MAGE, WARRIOR, THIEF, ExtraTimeGift, LessTimeGift, KillGift};
+enum CONSTS { NUM_OF_ICONS = 5, CHAR_SIZE = 30 };
+enum Icons { KING, MAGE, WARRIOR, THIEF, ENEMY};
 
 // the c-tor reseives the dimentions of the Help window 
 // It inializes the elemnts of the vector m_icons, the elements of vector m_helpText, the textures and sounds.
@@ -16,6 +16,7 @@ Help::Help(int width, int hight) :
     m_textures[MAGE].loadFromFile("Mage.png");
     m_textures[WARRIOR].loadFromFile("Warrior.png");
     m_textures[THIEF].loadFromFile("Thief.png");
+    m_textures[ENEMY].loadFromFile("Enemy.png");
     m_backTex.loadFromFile("Back Button.png");
     m_backClickedTex.loadFromFile("Back Button Clicked.png");
     m_iconClickedBuf.loadFromFile("ButtonClickedSound.wav");
@@ -110,6 +111,8 @@ void Help::fillIconsVec()
     m_iconsVec.push_back(warriorImg);
     auto thiefImg = sf::Sprite(m_textures[THIEF]);
     m_iconsVec.push_back(thiefImg);
+    auto enemyImg = sf::Sprite(m_textures[ENEMY]);
+    m_iconsVec.push_back(enemyImg);
     m_backButton.setTexture(m_backTex); // sprite back button
 
     for (int counter = 0; counter < m_iconsVec.size(); counter++)
@@ -154,14 +157,8 @@ void Help::handleIconsClick(const sf::Vector2f& location, sf::RenderWindow& wind
             case THIEF: // theif icon is pressed 
                 info = "Thief";
                 break;
-            case ExtraTimeGift:
-                info = "Increase time gift";
-                break;
-            case LessTimeGift:
-                info = "Decrease time gift";
-                break;
-            case KillGift:
-                info = "Kill enemy gift";
+            case ENEMY:
+                info = "Enemy";
                 break;
             }
     }

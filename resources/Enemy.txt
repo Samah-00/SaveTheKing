@@ -1,0 +1,10 @@
+Meet the enemy.
+Moving ghosts will block the way of the four characters.
+Each character has three lives, crashing into a ghost will
+decrease a life from the character.
+However, a character can win a life back by collecting
+a healing kit.
+A "kill all the animes" present might appear in some levels,
+any character can collect the gift by walking on it.
+Finally, collecting a speed up present will increases the speed
+of the enemies.
