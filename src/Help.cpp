@@ -187,31 +187,36 @@ void Help::showInfo(const std::string info)
         for (int index = 0; index < info_vec.size(); index++)
             infoWindow.draw(info_vec[index]);
         infoWindow.display();
-
-        if (auto event = sf::Event{}; infoWindow.waitEvent(event))
-            switch (event.type)
-            {
-            case sf::Event::Closed:
-                infoWindow.close(); break;
-
-            case sf::Event::MouseMoved:
-            {
-                auto location = infoWindow.mapPixelToCoords({ event.mouseMove.x , event.mouseMove.y });
-                if(m_backButton.getGlobalBounds().contains(location))
-                    m_backButton.setTexture(m_backClickedTex);
-                else
-                    m_backButton.setTexture(m_backTex);
-                break;
-            }
-            case sf::Event::MouseButtonReleased: //if the user pressed the mouse button
-                auto location = infoWindow.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
-                if (m_backButton.getGlobalBounds().contains(location))
-                {
-                    m_iconClickedSound.play();
-                    infoWindow.close();
-                    return;
-                }
-                break;
-            }
+        handleInfoEvents(infoWindow);
     }
+}
+
+// The showInfo function calls this function in a while loop to handle the events in the infoWindow.
+void Help::handleInfoEvents(sf::RenderWindow& infoWindow)
+{
+    if (auto event = sf::Event{}; infoWindow.waitEvent(event))
+        switch (event.type)
+        {
+        case sf::Event::Closed:
+            infoWindow.close(); break;
+
+        case sf::Event::MouseMoved:
+        {
+            auto location = infoWindow.mapPixelToCoords({ event.mouseMove.x , event.mouseMove.y });
+            if (m_backButton.getGlobalBounds().contains(location))
+                m_backButton.setTexture(m_backClickedTex);
+            else
+                m_backButton.setTexture(m_backTex);
+            break;
+        }
+        case sf::Event::MouseButtonReleased: //if the user pressed the mouse button
+            auto location = infoWindow.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
+            if (m_backButton.getGlobalBounds().contains(location))
+            {
+                m_iconClickedSound.play();
+                infoWindow.close();
+                return;
+            }
+            break;
+        }
 }

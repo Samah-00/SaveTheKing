@@ -11,6 +11,7 @@ public:
 	void showHelp();
 	void handleIconsClick(const sf::Vector2f&, sf::RenderWindow&);
 	void showInfo(const std::string info);
+	void handleInfoEvents(sf::RenderWindow&);
 
 private:
 	std::vector<sf::Sprite> m_iconsVec;
