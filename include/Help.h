@@ -9,6 +9,7 @@ class Help
 public:
 	Help(int width, int hight);
 	void showHelp();
+	void handleHelpEvents(sf::RenderWindow&);
 	void handleIconsClick(const sf::Vector2f&, sf::RenderWindow&);
 	void showInfo(const std::string info);
 	void handleInfoEvents(sf::RenderWindow&);

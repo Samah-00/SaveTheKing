@@ -34,7 +34,6 @@ void Help::showHelp()
 {
     sf::RenderWindow helpWindow(sf::VideoMode(m_width, m_hight), "Help");
     auto backgroundImg = sf::Sprite(m_background);  // set a background image for helpWindow
-    sf::Vector2f location;
     while (helpWindow.isOpen())
     {
         helpWindow.clear();
@@ -46,31 +45,37 @@ void Help::showHelp()
             helpWindow.draw(m_iconsVec[index]);
         helpWindow.draw(m_backButton);
         helpWindow.display();
-
-        if (auto event = sf::Event{}; helpWindow.waitEvent(event))
-            switch (event.type)
-            {
-            case sf::Event::Closed:
-                helpWindow.close();
-                break;
-
-            case sf::Event::MouseButtonReleased: //if the user pressed the mouse button
-                location = helpWindow.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
-                handleIconsClick(location, helpWindow);
-                break;
-            case sf::Event::MouseMoved:
-            {
-                location = helpWindow.mapPixelToCoords({ event.mouseMove.x , event.mouseMove.y });
-                if (m_backButton.getGlobalBounds().contains(location))
-                    m_backButton.setTexture(m_backClickedTex);
-                else
-                    m_backButton.setTexture(m_backTex);
-                break;
-            }
-            default:
-                break;
-            }
+        handleHelpEvents(helpWindow);
     }
+}
+
+// The showHelp function calls this function in a while loop to handle the events in the helpWindow.
+void Help::handleHelpEvents(sf::RenderWindow& helpWindow)
+{
+    sf::Vector2f location;
+    if (auto event = sf::Event{}; helpWindow.waitEvent(event))
+        switch (event.type)
+        {
+        case sf::Event::Closed:
+            helpWindow.close();
+            break;
+
+        case sf::Event::MouseButtonReleased: //if the user pressed the mouse button
+            location = helpWindow.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
+            handleIconsClick(location, helpWindow);
+            break;
+        case sf::Event::MouseMoved:
+        {
+            location = helpWindow.mapPixelToCoords({ event.mouseMove.x , event.mouseMove.y });
+            if (m_backButton.getGlobalBounds().contains(location))
+                m_backButton.setTexture(m_backClickedTex);
+            else
+                m_backButton.setTexture(m_backTex);
+            break;
+        }
+        default:
+            break;
+        }
 }
 
 // helper function, it copies a txt file to a sf::Text vector.
