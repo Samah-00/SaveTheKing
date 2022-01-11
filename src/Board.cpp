@@ -7,28 +7,28 @@ Board::Board() : m_player(0), m_timer(0), m_thiefHasKey(false), m_success(false)
     //set background
     m_background.loadFromFile("GameBackGround.jpg");
     m_clock.restart();
-    m_textures.resize(20); //6 = number of characters
+    m_textures.resize(20); //20 = number of icons
     m_SoundsBuffer.resize(9);
-    m_textures[0].loadFromFile("Fire.png");
-    m_textures[1].loadFromFile("Gate2.png");
-    m_textures[2].loadFromFile("KingChair.png");
-    m_textures[3].loadFromFile("wall.jpg");
-    m_textures[4].loadFromFile("TeleportCell.png");
-    m_textures[5].loadFromFile("Orc.png");
-    m_textures[6].loadFromFile("King.png");
-    m_textures[7].loadFromFile("Mage.png");
-    m_textures[8].loadFromFile("Warrior.png");
-    m_textures[9].loadFromFile("Thief.png");
-    m_textures[10].loadFromFile("Key.png");
-    m_textures[11].loadFromFile("Enemy.png");
-    m_textures[12].loadFromFile("UpPresent.png");
-    m_textures[13].loadFromFile("downPresent.png");
-    m_textures[14].loadFromFile("killPresent.png");
-    m_textures[15].loadFromFile("Arrow.png");
-    m_textures[16].loadFromFile("LevelUp.png");
-    m_textures[17].loadFromFile("GameOver.jpg");
-    m_textures[18].loadFromFile("HealingKitPresent.png");
-    m_textures[19].loadFromFile("SpeedUpPresent.png");
+    m_textures[KING].loadFromFile("King.png");
+    m_textures[MAGE].loadFromFile("Mage.png");
+    m_textures[WARRIOR].loadFromFile("Warrior.png");
+    m_textures[THIEF].loadFromFile("Thief.png");
+    m_textures[TELEPORT_CELL].loadFromFile("TeleportCell.png");
+    m_textures[ORC].loadFromFile("Orc.png");
+    m_textures[FIRE].loadFromFile("Fire.png");
+    m_textures[GATE].loadFromFile("Gate2.png");
+    m_textures[CHAIR].loadFromFile("KingChair.png");
+    m_textures[WALL].loadFromFile("wall.jpg");
+    m_textures[KEY].loadFromFile("Key.png");
+    m_textures[GHOST].loadFromFile("Enemy.png");
+    m_textures[UP_PRESENT].loadFromFile("UpPresent.png");
+    m_textures[DOWN_PRESENT].loadFromFile("downPresent.png");
+    m_textures[KILL_PRESENT].loadFromFile("killPresent.png");
+    m_textures[ARROW].loadFromFile("Arrow.png");
+    m_textures[LEVEL_UP].loadFromFile("LevelUp.png");
+    m_textures[GAME_OVER].loadFromFile("GameOver.jpg");
+    m_textures[HEALING_KIT].loadFromFile("HealingKitPresent.png");
+    m_textures[SPEED_UP_PRESENT].loadFromFile("SpeedUpPresent.png");
     m_SoundsBuffer[0].loadFromFile("swordSound.wav");
     m_SoundsBuffer[1].loadFromFile("GhostSound.wav");
     m_SoundsBuffer[2].loadFromFile("teleportSound.wav");
@@ -89,54 +89,54 @@ void Board::readChar(const char c, const size_t i, size_t& j)
     {
         switch (c)
         {
-        case WALL:
-            m_board[j][i] = std::make_unique<Wall>(m_textures[3], float(i), float(j));
+        case D_WALL:
+            m_board[j][i] = std::make_unique<Wall>(m_textures[WALL], float(i), float(j));
             break;
-        case FIRE:
-            m_board[j][i] = std::make_unique<Fire>(m_textures[0], float(i), float(j));
+        case D_FIRE:
+            m_board[j][i] = std::make_unique<Fire>(m_textures[FIRE], float(i), float(j));
             break;
-        case ORC:
-            m_board[j][i] = std::make_unique<Orc>(m_textures[5], float(i), float(j));
+        case D_ORC:
+            m_board[j][i] = std::make_unique<Orc>(m_textures[ORC], float(i), float(j));
             break;
-        case GATE:
-            m_board[j][i] = std::make_unique<Gate>(m_textures[1], float(i), float(j));
+        case D_GATE:
+            m_board[j][i] = std::make_unique<Gate>(m_textures[GATE], float(i), float(j));
             break;
-        case TELEPORT_CELL:
-            m_board[j][i] = std::make_unique<TeleportCell>(m_textures[4], float(i), float(j));
-            m_TeleportCells.emplace_back(std::make_unique<TeleportCell>(m_textures[4], float(i), float(j)));
+        case D_TELEPORT_CELL:
+            m_board[j][i] = std::make_unique<TeleportCell>(m_textures[TELEPORT_CELL], float(i), float(j));
+            m_TeleportCells.emplace_back(std::make_unique<TeleportCell>(m_textures[TELEPORT_CELL], float(i), float(j)));
             break;
-        case CHAIR:
-            m_board[j][i] = std::make_unique<Chair>(m_textures[2], float(i), float(j));
+        case D_CHAIR:
+            m_board[j][i] = std::make_unique<Chair>(m_textures[CHAIR], float(i), float(j));
             break;
-        case UP_PRESENT:
-            m_board[j][i] = std::make_unique<IncreaseTimePresent>(m_textures[12], float(i), float(j));
+        case D_UP_PRESENT:
+            m_board[j][i] = std::make_unique<IncreaseTimePresent>(m_textures[UP_PRESENT], float(i), float(j));
             break;
-        case DOWN_PRESENT:
-            m_board[j][i] = std::make_unique<DecreaseTimePresent>(m_textures[13], float(i), float(j));
+        case D_DOWN_PRESENT:
+            m_board[j][i] = std::make_unique<DecreaseTimePresent>(m_textures[DOWN_PRESENT], float(i), float(j));
             break;
-        case KILL_PRESENT:
-            m_board[j][i] = std::make_unique<executeEnemyPresent>(m_textures[14], float(i), float(j));
+        case D_KILL_PRESENT:
+            m_board[j][i] = std::make_unique<executeEnemyPresent>(m_textures[KILL_PRESENT], float(i), float(j));
             break;
-        case '$':
-            m_board[j][i] = std::make_unique<HealingKitPresent>(m_textures[18], float(i), float(j));
+        case D_HEALING_KIT:
+            m_board[j][i] = std::make_unique<HealingKitPresent>(m_textures[HEALING_KIT], float(i), float(j));
             break;
-        case 'S':
-            m_board[j][i] = std::make_unique<SpeedUpPresent>(m_textures[19], float(i), float(j));
+        case D_SPEEDUP_PRESENT:
+            m_board[j][i] = std::make_unique<SpeedUpPresent>(m_textures[SPEED_UP_PRESENT], float(i), float(j));
             break;
-        case KING:
-            m_characters[0] = std::make_unique<King>(m_textures[6], float(i), float(j)); // 0 = king
+        case D_KING:
+            m_characters[KING] = std::make_unique<King>(m_textures[KING], float(i), float(j));
             break;
-        case MAGE:
-            m_characters[1] = std::make_unique<Mage>(m_textures[7], float(i), float(j));
+        case D_MAGE:
+            m_characters[MAGE] = std::make_unique<Mage>(m_textures[MAGE], float(i), float(j));
             break;
-        case WARRIOR:
-            m_characters[2] = std::make_unique<Warrior>(m_textures[8], float(i), float(j));
+        case D_WARRIOR:
+            m_characters[WARRIOR] = std::make_unique<Warrior>(m_textures[WARRIOR], float(i), float(j));
             break;
-        case THIEF:
-            m_characters[3] =  std::make_unique<Thief>(m_textures[9], float(i), float(j));
+        case D_THIEF:
+            m_characters[THIEF] =  std::make_unique<Thief>(m_textures[THIEF], float(i), float(j));
             break;
-        case GOAST:
-            m_board[j][i] = std::make_unique<Enemy>(m_textures[11], float(i), float(j));
+        case D_GHOST:
+            m_board[j][i] = std::make_unique<Enemy>(m_textures[GHOST], float(i), float(j));
             m_enemies.emplace_back(dynamic_cast<Enemy*> (m_board[j][i].get()));
             break;
 

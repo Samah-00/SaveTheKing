@@ -4,21 +4,21 @@
 bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
 {
     std::string titel = "Save The King - Level " + std::to_string(LevelNum);
-    sf::RenderWindow window(sf::VideoMode(m_levelSize.x * 45, m_levelSize.y * 45 + 150), titel);//do the enum / 45 = wall height/width / 150 = for the info
+    sf::RenderWindow window(sf::VideoMode(m_levelSize.x * m_iconSize, m_levelSize.y * m_iconSize + 150), titel); // 150 : add space for level info
     font1.loadFromFile("C:/Windows/Fonts/Arial.ttf");
     auto backgroundImg = sf::Sprite(m_background);
-    auto arrow = sf::Sprite(m_textures[15]);
+    auto arrow = sf::Sprite(m_textures[ARROW]);
     //backgroundImg.scale((m_levelSize.x * 450), (m_levelSize.y * 450));
     LevelData levelData(LevelNum, m_levelSize);
     m_enemyClock.resize(m_enemies.size());
     while (window.isOpen())
     {
-        float arrowPos_x = m_characters[m_player]->getPosition().x + 10/*(m_characters[m_player]->initializeImg().getGlobalBounds().width / 2)*/;
-        float arrowPos_y = m_characters[m_player]->getPosition().y + 45;
+        float arrowPos_x = m_characters[m_player]->getPosition().x + 10;
+        float arrowPos_y = m_characters[m_player]->getPosition().y + m_iconSize;
         arrow.setPosition(arrowPos_x, arrowPos_y);
         if (m_success)
         {
-            ShowResult(m_textures[16]);
+            ShowResult(m_textures[LEVEL_UP]);
             window.close();
         }
             
@@ -49,7 +49,7 @@ bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
         window.display();
         if ((timeLimitedLevel && m_TimeLeft == 0) || m_characters[m_player]->getNumOfLives() == 0)
         {
-            ShowResult(m_textures[17]);
+            ShowResult(m_textures[GAME_OVER]);
             return m_success;
         }
         if (auto event = sf::Event{}; window.pollEvent(event))
@@ -106,7 +106,7 @@ void BoardController::MoveEnemy(int enemyIndex)
 {
     const auto deltaTime = m_enemyClock[enemyIndex].restart();
     m_enemies[enemyIndex]->setDirection(m_enemies[enemyIndex]->getCurrDir());
-    sf::Vector2f pos(m_enemies[enemyIndex]->getPosition().x / 45, m_enemies[enemyIndex]->getPosition().y / 45);
+    sf::Vector2f pos(m_enemies[enemyIndex]->getPosition().x / m_iconSize, m_enemies[enemyIndex]->getPosition().y / m_iconSize);
     sf::Vector2f dir(m_enemies[enemyIndex]->getDirection().x, m_enemies[enemyIndex]->getDirection().y);
     sf::Vector2f temp = pos + dir;
     if (round(temp.x) >= m_levelSize.x || round(temp.x) < 0 ||
@@ -132,7 +132,7 @@ void BoardController::handleArrowPressed(sf::Keyboard::Key key)
 {
     const auto deltaTime = m_moveClock.restart();
     m_characters[m_player]->setDirection(key);
-    sf::Vector2f pos(m_characters[m_player]->getPosition().x / 45, m_characters[m_player]->getPosition().y / 45);
+    sf::Vector2f pos(m_characters[m_player]->getPosition().x / m_iconSize, m_characters[m_player]->getPosition().y / m_iconSize);
     sf::Vector2f dir(m_characters[m_player]->getDirection().x * 0.3f , m_characters[m_player]->getDirection().y * 0.3f);
     sf::Vector2f temp = pos + dir;
     if (round(temp.x) >= m_levelSize.x || round(temp.x) < 0 ||
@@ -151,7 +151,7 @@ void BoardController::handleArrowPressed(sf::Keyboard::Key key)
         break;
     case S_ORC:
         m_Sounds[0].play();
-        m_board[round(temp.y)][round(temp.x)] = std::make_unique<Key>(m_textures[10], float(round(temp.x)), float(round(temp.y)));
+        m_board[round(temp.y)][round(temp.x)] = std::make_unique<Key>(m_textures[KEY], float(round(temp.x)), float(round(temp.y)));
         break;
     case S_KEY:
         m_Sounds[6].play();
@@ -170,7 +170,7 @@ void BoardController::handleArrowPressed(sf::Keyboard::Key key)
         m_Sounds[2].play();
         for (int index = 0; index < m_TeleportCells.size(); index++)
         {
-            sf::Vector2f Ttemp(round(temp.x) * 45, round(temp.y) * 45);
+            sf::Vector2f Ttemp(round(temp.x) * m_iconSize, round(temp.y) * m_iconSize);
             if (m_TeleportCells[index]->initializeImg().getPosition() == Ttemp)
             {
                 int SecondTeleportIndex = (index % 2 == 0) ? index + 1 : index - 1 ;

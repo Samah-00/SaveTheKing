@@ -54,31 +54,36 @@ To move a character, press the arrows' keys on the keyboard.
 ---------------------------------------------------------------------------------------------------------
 ------------------------------------------------- Design ------------------------------------------------
 ---------------------------------------------------------------------------------------------------------
-the main starts the game by creating a HomeController object.
-the HomeController creates a HomePage object, then in a while loop the controller handles the moves and
-clickes on the window of the HomePage:
+Home Page:
+----------
+The main starts the game by creating a HomeController object.
+the HomeController creates a HomePage object that creates a background and buttons in the window.
+Then in a while loop the homeController handles the moves and clickes on the HomePage window:
  ● when the user clickes the "help" button in HomePage, the controller creates a Help object that opens
    a Help window and present info about the characters and how to play the game.
  ● when the user clickes the "exit" button in HomePage, the controller exits the program.
  ● when the user clickes the "start" button in HomePage, the controller closes the window of HomePage
    and creates a Level object.
+Levels and Board:
+-----------------
 In a for loop, the Level object starts new levels (NUM_OF_LEVEL times). For each level, it reads
 a text file to calculate the size of the board and whether or not the level is time-limited.
 Lastly, it creates a BoardController object. Using polymorphism a Board object is built from the
 BoardController object.
-The Board object reads the map of the level from a text file and prints it [and more info? timer, levelData] 
-to the window of the level. The BoardController object handles the moves and clickes on the window of
-the board. Since the BoardController uses the members of the Board, it inherates from the Board to have
+The Board object reads the map of the level from a text file and saves it in a vector.
+The BoardController prints the board to the game window and handles the moves and procedure of the game.
+It also creates a levelData object when it starts a level, the levelData object updates the info about
+the current level such as the character that's moving, the timer and more.
+Since the BoardController uses the members of the Board, it inherates from the Board to have
 access to the Board's potected members.
-**to be continued: types of GameObjects**
+Game Objects:
+-------------
 The base characters class is called GameObject, it has two children: MovingObject and StaticObject.
 The c-tor of the GameObject class recieves a texture and turns it into a sprite protected member, it also
 recieves the initial position of an object.
 Classes of moving objects, i.g King and Enemy, inherate from the MovingObject class and use its functions
 while still objects, i.g Wall and Gate, inherate from the StaticObject class (which is a virtual class).
-The classes of moving objects controles the movment of the object according to the character's abilites.
-** to be continued: **
-** levelData, help and info **
+The classes of moving objects handle the movments of the object according to the character's abilites.
 ---------------------------------------------------------------------------------------------------------
 ------------------------------------------- Adding New Levels -------------------------------------------
 ---------------------------------------------------------------------------------------------------------
@@ -108,6 +113,6 @@ Naming a level file:
 --------------------
 The name of the level's file should be the number of the level, i.g: "1.txt" is the 1st level.
 changing the number of levels:
-----------------------------------
+------------------------------
 By default, the game has three levels. When adding a new level, update the number of the levels
 in the file "Number of levels.txt" in the resources repository.

@@ -25,12 +25,18 @@
 
 inline auto font1 = sf::Font();
 
+enum CHARS_DICTIONARY // D for dictionary
+{
+	D_GATE = '#', D_WALL = '=', D_GHOST = '^', D_TELEPORT_CELL = 'X', D_FIRE = '*', D_ORC = '!', D_CHAIR = '@',
+	D_KING = 'K', D_MAGE = 'M', D_THIEF = 'T', D_WARRIOR = 'W',
+	D_UP_PRESENT = '+', D_DOWN_PRESENT = '-', D_KILL_PRESENT = '/', D_HEALING_KIT = '$', D_SPEEDUP_PRESENT = 'S'
+};
 
 enum CHARS
 {
-	GATE = '#', WALL = '=', GOAST = '^', TELEPORT_CELL = 'X', FIRE = '*', ORC = '!', CHAIR = '@',
-	KING = 'K', MAGE = 'M', THIEF = 'T', WARRIOR = 'W',
-	UP_PRESENT = '+', DOWN_PRESENT = '-', KILL_PRESENT = '/'
+	KING, MAGE, WARRIOR, THIEF, GATE, WALL, GHOST, TELEPORT_CELL, FIRE , ORC , CHAIR ,
+	UP_PRESENT , DOWN_PRESENT , KILL_PRESENT , HEALING_KIT, SPEED_UP_PRESENT, KEY,
+	ARROW, LEVEL_UP, GAME_OVER
 };
 
 class Board
@@ -59,6 +65,7 @@ protected:
 	int m_player;
 	bool m_thiefHasKey;
 	bool m_success;
+	const int m_iconSize = 45;
 	// Helper Functions:
 	void readChar(const char c, const size_t i, size_t& j);
 
