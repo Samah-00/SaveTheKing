@@ -23,6 +23,7 @@ Help::Help(int width, int hight) :
     m_iconClickedSound = sf::Sound(m_iconClickedBuf);
     m_helpText = fillTextVec("Help");
     fillIconsVec();
+    createBackButton();
 }
 
 // this function creates and opens the Help window and prints to it
@@ -113,7 +114,6 @@ void Help::fillIconsVec()
     m_iconsVec.push_back(thiefImg);
     auto enemyImg = sf::Sprite(m_textures[ENEMY]);
     m_iconsVec.push_back(enemyImg);
-    m_backButton.setTexture(m_backTex); // sprite back button
 
     for (int counter = 0; counter < m_iconsVec.size(); counter++)
     {
@@ -122,6 +122,12 @@ void Help::fillIconsVec()
         m_iconsVec[counter].setPosition(iconLoc);
         m_iconsVec[counter].scale(iconScale);
     }
+}
+
+// Helper function for the c-tor, it creates the back button of help and info windows
+void Help::createBackButton()
+{
+    m_backButton.setTexture(m_backTex);
     sf::Vector2f backLoc(float(m_width / 2.7), float(CHAR_SIZE * (m_helpText.size() + 2) + m_iconsVec[0].getGlobalBounds().height)); //CHAR_WIDTH * m_helpText.size() to print the images under the text
     sf::Vector2f backScale(0.3f, 0.3f);
     m_backButton.setPosition(backLoc);

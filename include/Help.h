@@ -29,4 +29,5 @@ private:
 	// helper functions:
 	std::vector <sf::Text> fillTextVec(const std::string fileName);
 	void fillIconsVec();
+	void createBackButton();
 };
