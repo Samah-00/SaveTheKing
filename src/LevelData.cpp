@@ -5,6 +5,7 @@ m_levelSize(levelSize),
 m_player(0),
 m_thiefHasKey(false),
 m_timeLeft(0),
+m_numOfLives(3),
 m_timeLimitedLevel(false)
 {
 	m_font.loadFromFile("C:/Windows/Fonts/broadw.ttf");
@@ -68,6 +69,8 @@ void LevelData::setDataDesign()
 		sf::Vector2f dataLoc(X_Data, Y_Data);
 		m_data[counter].setPosition(dataLoc);
 		m_data[counter].setCharacterSize(20);
+		if (counter == m_titels.size()-1 && m_timeLimitedLevel && m_timeLeft < 10) // if time left < 20 sec. colour of timer = red 
+			m_data[counter].setFillColor(sf::Color::Red);
 	}
 }
 
