@@ -8,7 +8,7 @@ Board::Board() : m_player(0), m_timer(0), m_thiefHasKey(false), m_success(false)
     m_background.loadFromFile("GameBackGround.jpg");
     m_clock.restart();
     m_textures.resize(21); //20 = number of icons
-    m_SoundsBuffer.resize(9);
+    m_SoundsBuffer.resize(11);
     m_textures[KING].loadFromFile("King.png");
     m_textures[MAGE].loadFromFile("Mage.png");
     m_textures[WARRIOR].loadFromFile("Warrior.png");
@@ -29,7 +29,7 @@ Board::Board() : m_player(0), m_timer(0), m_thiefHasKey(false), m_success(false)
     m_textures[GAME_OVER].loadFromFile("GameOver.png");
     m_textures[HEALING_KIT].loadFromFile("HealingKitPresent.png");
     m_textures[SPEED_UP_PRESENT].loadFromFile("SpeedUpPresent.png");
-    m_textures[20].loadFromFile("OpenGate.png");
+    m_textures[UNLOCKED_GATE].loadFromFile("OpenGate.png");
     m_SoundsBuffer[0].loadFromFile("swordSound.wav");
     m_SoundsBuffer[1].loadFromFile("GhostSound.wav");
     m_SoundsBuffer[2].loadFromFile("teleportSound.wav");
@@ -39,6 +39,8 @@ Board::Board() : m_player(0), m_timer(0), m_thiefHasKey(false), m_success(false)
     m_SoundsBuffer[6].loadFromFile("KeySound.wav");
     m_SoundsBuffer[7].loadFromFile("DecreaseTimeSound.wav");
     m_SoundsBuffer[8].loadFromFile("IncreaseTimeSound.wav");
+    m_SoundsBuffer[9].loadFromFile("LevelUpSound.wav");
+    m_SoundsBuffer[10].loadFromFile("GameOverSound.wav");
     InitializeSound();
 }
 

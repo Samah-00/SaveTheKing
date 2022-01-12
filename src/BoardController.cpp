@@ -18,7 +18,7 @@ bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
         arrow.setPosition(arrowPos_x, arrowPos_y);
         if (m_success)
         {
-            ShowResult(m_textures[LEVEL_UP]);
+            ShowResult(m_textures[LEVEL_UP], m_Sounds[9]);
             window.close();
         }
             
@@ -49,7 +49,7 @@ bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
         window.display();
         if ((timeLimitedLevel && m_TimeLeft == 0) || m_characters[m_player]->getNumOfLives() == 0)
         {
-            ShowResult(m_textures[GAME_OVER]);
+            ShowResult(m_textures[GAME_OVER], m_Sounds[10]);
             return m_success;
         }
         if (auto event = sf::Event{}; window.pollEvent(event))
@@ -67,10 +67,11 @@ bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
     }
 }
 
-void BoardController::ShowResult(sf::Texture result)
+void BoardController::ShowResult(sf::Texture result, sf::Sound sound)
 {
     sf::RenderWindow resultWindow(sf::VideoMode(result.getSize().x, result.getSize().y), " ** LEVEL\'S RESULT ** ");
     sf::Sprite resultImg(result);
+    sound.play();
     while (resultWindow.isOpen())
     {
         resultWindow.clear();
@@ -160,7 +161,7 @@ void BoardController::handleArrowPressed(sf::Keyboard::Key key)
         break;
     case S_GATE:
         m_Sounds[5].play();
-        m_board[round(temp.y)][round(temp.x)] = std::make_unique<UnlockedGate>(m_textures[20], float(round(temp.x)), float(round(temp.y)));
+        m_board[round(temp.y)][round(temp.x)] = std::make_unique<UnlockedGate>(m_textures[UNLOCKED_GATE], float(round(temp.x)), float(round(temp.y)));
         m_thiefHasKey = false;
         break;
     case S_CHAIR:
