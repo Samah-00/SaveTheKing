@@ -22,6 +22,7 @@
 #include "executeEnemyPresent.h"
 #include "HealingKitPresent.h"
 #include "SpeedUpPresent.h"
+#include "UnlockedGate.h"
 
 inline auto font1 = sf::Font();
 

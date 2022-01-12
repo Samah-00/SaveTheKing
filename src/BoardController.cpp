@@ -160,7 +160,7 @@ void BoardController::handleArrowPressed(sf::Keyboard::Key key)
         break;
     case S_GATE:
         m_Sounds[5].play();
-        m_board[round(temp.y)][round(temp.x)] = nullptr;
+        m_board[round(temp.y)][round(temp.x)] = std::make_unique<UnlockedGate>(m_textures[20], float(round(temp.x)), float(round(temp.y)));
         m_thiefHasKey = false;
         break;
     case S_CHAIR:
