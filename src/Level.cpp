@@ -41,7 +41,11 @@ void Level::buildLevel()
         m_timer = levelTimer;
     }
     else //if the level isn't time limited
+    {
+        m_timeLimitedLevel = false;
         getline(board_file, time_str); //ignore a line
+    }
+        
 
     calculateLevelSize(board_file);
     Board* board = &boardController;

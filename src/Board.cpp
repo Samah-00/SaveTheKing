@@ -8,7 +8,7 @@ Board::Board() : m_player(0), m_timer(0), m_thiefHasKey(false), m_success(false)
     m_background.loadFromFile("GameBackGround.jpg");
     m_clock.restart();
     m_textures.resize(21); //20 = number of icons
-    m_SoundsBuffer.resize(11);
+    m_SoundsBuffer.resize(13);
     m_textures[KING].loadFromFile("King.png");
     m_textures[MAGE].loadFromFile("Mage.png");
     m_textures[WARRIOR].loadFromFile("Warrior.png");
@@ -41,6 +41,8 @@ Board::Board() : m_player(0), m_timer(0), m_thiefHasKey(false), m_success(false)
     m_SoundsBuffer[8].loadFromFile("IncreaseTimeSound.wav");
     m_SoundsBuffer[9].loadFromFile("LevelUpSound.wav");
     m_SoundsBuffer[10].loadFromFile("GameOverSound.wav");
+    m_SoundsBuffer[11].loadFromFile("HealingSound.wav");
+    m_SoundsBuffer[12].loadFromFile("DangerSound.wav");
     InitializeSound();
 }
 

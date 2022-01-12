@@ -200,10 +200,12 @@ void BoardController::handleArrowPressed(sf::Keyboard::Key key)
         m_Sounds[1].play();
         break;
     case S_HEALING_KIT:
+        m_Sounds[11].play();
         m_board[round(temp.y)][round(temp.x)] = nullptr;
         break;
     case S_SPEEDUP_PRESENT:
     {
+        m_Sounds[12].play();
         m_board[round(temp.y)][round(temp.x)] = nullptr;
         for (int index = 0; index < m_enemies.size(); index++)
         {
