@@ -3,6 +3,7 @@
 
 Enemy::Enemy(sf::Texture& image, float x, float y) : MovingObject(image, x, y), m_currDir(72), m_enemySpeed(50.f)
 {
+	m_direction = sf::Vector2f(1, 0);
 	m_enemy1 = image;
 	m_enemy2.loadFromFile("Enemy2.png");
 }
@@ -16,6 +17,10 @@ sf::Sprite& Enemy::initializeImg() {
 		m_image.setPosition(m_objectSizeFitter * m_position.x, m_objectSizeFitter * m_position.y);
 		m_firstDraw = false;
 	}
+	//std::cout << m_direction.x << " " << m_direction.y << std::endl;
+
+	//m_image.move(m_direction * m_enemySpeed);
+	//std::cout << m_image.getPosition().x << " " << m_image.getPosition().y << std::endl;
 	return m_image;
 }
 
@@ -26,6 +31,11 @@ void Enemy::draw(sf::RenderWindow& window)
 
 int Enemy::move(sf::Time deltaTime, const char* NextStep)
 {
+
+
+
+
+
 	int moveStatus = 0;
 	m_image.move(m_direction * m_enemySpeed * deltaTime.asSeconds());
 	return moveStatus;

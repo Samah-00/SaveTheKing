@@ -3,7 +3,7 @@
 Level::Level() :
     m_level(1),
     m_timer(0),
-    m_levelSize(0,0),
+    m_levelSize(0, 0),
     m_timeLimitedLevel(false)
 {
     m_GameMusic.openFromFile("GameSound.wav");
@@ -42,16 +42,19 @@ void Level::buildLevel()
     }
     else //if the level isn't time limited
     {
-        m_timeLimitedLevel = false;
+        m_timeLimitedLevel = false; //newww
         getline(board_file, time_str); //ignore a line
     }
-        
+
 
     calculateLevelSize(board_file);
     Board* board = &boardController;
-    board->readLevel(m_levelSize, m_timer,board_file);
+    board->readLevel(m_levelSize, m_timer, board_file);
     if (!boardController.startLevel(m_level, m_timeLimitedLevel))
+    {
         m_level = m_level - 1; //return to the same level
+    }
+
 }
 
 //this function creats the file name based of the number of the level we are in
@@ -83,4 +86,3 @@ void Level::calculateLevelSize(std::ifstream& board_file)
         m_levelSize.x = ((line.size() > m_levelSize.x) ? unsigned int(line.size()) : m_levelSize.x);
     }
 }
-

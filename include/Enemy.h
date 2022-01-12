@@ -5,6 +5,7 @@
 class Enemy : public MovingObject
 {
 public:
+	//using MovingObject::MovingObject;
 	Enemy(sf::Texture& image, float x, float y);
 	sf::Sprite& initializeImg();
 	void draw(sf::RenderWindow& window);

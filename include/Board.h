@@ -51,7 +51,10 @@ public:
 protected:
 	std::vector<std::vector<std::unique_ptr<GameObject>>> m_board;
 	std::vector<std::unique_ptr<MovingObject>> m_characters;
-	std::vector<Enemy*> m_enemies;
+	std::vector<std::unique_ptr<Enemy>> m_enemies1;
+
+	//std::vector<Enemy*> m_enemies;
+
 	std::vector<std::unique_ptr<TeleportCell>> m_TeleportCells;
 	std::vector<sf::Clock> m_enemyClock;
 	std::vector<sf::SoundBuffer> m_SoundsBuffer;

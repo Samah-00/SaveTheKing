@@ -10,7 +10,7 @@ bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
     auto arrow = sf::Sprite(m_textures[ARROW]);
     //backgroundImg.scale((m_levelSize.x * 450), (m_levelSize.y * 450));
     LevelData levelData(LevelNum, m_levelSize);
-    m_enemyClock.resize(m_enemies.size());
+    m_enemyClock.resize(m_enemies1.size());
     while (window.isOpen())
     {
         float arrowPos_x = m_characters[m_player]->getPosition().x + 10;
@@ -36,10 +36,10 @@ bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
 
         window.draw(arrow);
 
-        for (int index = 0; index < m_enemies.size(); index++)
+        for (int index = 0; index < m_enemies1.size(); index++)
         {
             MoveEnemy(index);
-            m_enemies[index]->draw(window);
+            m_enemies1[index]->draw(window);
         }
         
         m_clock.getElapsedTime();
@@ -106,9 +106,9 @@ void BoardController::handleKeyPressed(sf::Keyboard::Key key)
 void BoardController::MoveEnemy(int enemyIndex)
 {
     const auto deltaTime = m_enemyClock[enemyIndex].restart();
-    m_enemies[enemyIndex]->setDirection(m_enemies[enemyIndex]->getCurrDir());
-    sf::Vector2f pos(m_enemies[enemyIndex]->getPosition().x / m_iconSize, m_enemies[enemyIndex]->getPosition().y / m_iconSize);
-    sf::Vector2f dir(m_enemies[enemyIndex]->getDirection().x, m_enemies[enemyIndex]->getDirection().y);
+    m_enemies1[enemyIndex]->setDirection(m_enemies1[enemyIndex]->getCurrDir());
+    sf::Vector2f pos(m_enemies1[enemyIndex]->getPosition().x / m_iconSize, m_enemies1[enemyIndex]->getPosition().y / m_iconSize);
+    sf::Vector2f dir(m_enemies1[enemyIndex]->getDirection().x, m_enemies1[enemyIndex]->getDirection().y);
     sf::Vector2f temp = pos + dir;
     if (round(temp.x) >= m_levelSize.x || round(temp.x) < 0 ||
         round(temp.y) >= m_levelSize.y || round(temp.y) < 0)
@@ -117,16 +117,16 @@ void BoardController::MoveEnemy(int enemyIndex)
     //std::cout << NextStep << std::endl;
     if (NextStep[0] != ' ')
     {
-        if (m_enemies[enemyIndex]->getCurrDir() == 72)
-            m_enemies[enemyIndex]->setCurrDir(71);
+        if (m_enemies1[enemyIndex]->getCurrDir() == 72)
+            m_enemies1[enemyIndex]->setCurrDir(71);
         else
-            m_enemies[enemyIndex]->setCurrDir(72);
+            m_enemies1[enemyIndex]->setCurrDir(72);
     }
-    int moveStatus = m_enemies[enemyIndex]->move(deltaTime, NextStep);
-    
+    int moveStatus = m_enemies1[enemyIndex]->move(deltaTime, NextStep);
+    /*
     if (NextStep[0] == ' ')
         m_board[round(temp.y)][round(temp.x)] =
-            std::move(m_board[round(m_enemies[enemyIndex]->getIndex().y)][round(m_enemies[enemyIndex]->getIndex().x)]);
+            std::move(m_board[round(m_enemies[enemyIndex]->getIndex().y)][round(m_enemies[enemyIndex]->getIndex().x)]);*/
 }
 
 void BoardController::handleArrowPressed(sf::Keyboard::Key key)
@@ -184,7 +184,7 @@ void BoardController::handleArrowPressed(sf::Keyboard::Key key)
     case S_KILL_PRESENT:
         m_Sounds[0].play();
         m_board[round(temp.y)][round(temp.x)] = nullptr;
-        m_enemies.clear();
+        m_enemies1.clear();
         break;
     case S_EXTRA_TIME_PRESENT:
         m_Sounds[8].play();
@@ -207,9 +207,9 @@ void BoardController::handleArrowPressed(sf::Keyboard::Key key)
     {
         m_Sounds[12].play();
         m_board[round(temp.y)][round(temp.x)] = nullptr;
-        for (int index = 0; index < m_enemies.size(); index++)
+        for (int index = 0; index < m_enemies1.size(); index++)
         {
-            m_enemies[index]->speedUpEnemy();
+            m_enemies1[index]->speedUpEnemy();
         }
     }
         
@@ -221,9 +221,9 @@ const char* BoardController::getNextStep(sf::Time deltaTime, sf::Vector2f temp)
     const char* NextStep = " ";
     if (m_board[round(temp.y)][round(temp.x)] != nullptr)
         NextStep = typeid(*m_board[round(temp.y)][round(temp.x)]).name();
-    for (int index = 0 ; index < m_enemies.size(); index++)
+    for (int index = 0 ; index < m_enemies1.size(); index++)
     {
-        sf::Vector2f temp2 = m_enemies[index]->getPosition() / float(m_iconSize);
+        sf::Vector2f temp2 = m_enemies1[index]->getPosition() / float(m_iconSize);
             if (temp2.x - 0.5f <= temp.x && temp.x <= temp2.x + 0.5f &&
                 temp2.y - 0.5f <= temp.y && temp.y <= temp2.y + 0.5f)
             NextStep = "class Enemy";
