@@ -8,6 +8,7 @@
                                                "BoardController.cpp"
                                                "Board.cpp"
                                                "Help.cpp"
+                                               "HelpController.cpp"
                                                "King.cpp"
                                                "Mage.cpp"
                                                "Warrior.cpp"

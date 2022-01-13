@@ -1,8 +1,5 @@
 #include "Help.h"
 
-enum CONSTS { NUM_OF_ICONS = 5, CHAR_SIZE = 30 };
-enum Icons { KING, MAGE, WARRIOR, THIEF, ENEMY};
-
 // the c-tor reseives the dimentions of the Help window 
 // It inializes the elemnts of the vector m_icons, the elements of vector m_helpText, the textures and sounds.
 Help::Help(int width, int hight) :
@@ -12,11 +9,11 @@ Help::Help(int width, int hight) :
     m_font.loadFromFile("C:/Windows/Fonts/CASTELAR.ttf");
     m_background.loadFromFile("Background.png");
     m_textures.resize(NUM_OF_ICONS);
-    m_textures[KING].loadFromFile("King.png");
-    m_textures[MAGE].loadFromFile("Mage.png");
-    m_textures[WARRIOR].loadFromFile("Warrior.png");
-    m_textures[THIEF].loadFromFile("Thief.png");
-    m_textures[ENEMY].loadFromFile("Enemy.png");
+    m_textures[KINGICON].loadFromFile("King.png");
+    m_textures[MAGEICON].loadFromFile("Mage.png");
+    m_textures[WARRIORICON].loadFromFile("Warrior.png");
+    m_textures[THIEFICON].loadFromFile("Thief.png");
+    m_textures[ENEMYICON].loadFromFile("Enemy.png");
     m_backTex.loadFromFile("Back Button.png");
     m_backClickedTex.loadFromFile("Back Button Clicked.png");
     m_iconClickedBuf.loadFromFile("ButtonClickedSound.wav");
@@ -26,57 +23,9 @@ Help::Help(int width, int hight) :
     createBackButton();
 }
 
-// this function creates and opens the Help window and prints to it
-// the elements of m_helpText and the elements of m_icons.
-// the window is opened in waitEvent mode, when the user clicks on one of the icons,
-// an Info window is opened to show more info about that icon.
-void Help::showHelp()
-{
-    sf::RenderWindow helpWindow(sf::VideoMode(m_width, m_hight), "Help");
-    auto backgroundImg = sf::Sprite(m_background);  // set a background image for helpWindow
-    while (helpWindow.isOpen())
-    {
-        helpWindow.clear();
-        helpWindow.draw(backgroundImg);
-        for (int index = 0; index < m_helpText.size(); index++)
-            helpWindow.draw(m_helpText[index]);
 
-        for (int index = 0; index < m_iconsVec.size(); index++)
-            helpWindow.draw(m_iconsVec[index]);
-        helpWindow.draw(m_backButton);
-        helpWindow.display();
-        handleHelpEvents(helpWindow);
-    }
-}
 
-// The showHelp function calls this function in a while loop to handle the events in the helpWindow.
-void Help::handleHelpEvents(sf::RenderWindow& helpWindow)
-{
-    sf::Vector2f location;
-    if (auto event = sf::Event{}; helpWindow.waitEvent(event))
-        switch (event.type)
-        {
-        case sf::Event::Closed:
-            helpWindow.close();
-            break;
 
-        case sf::Event::MouseButtonReleased: //if the user pressed the mouse button
-            location = helpWindow.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
-            handleIconsClick(location, helpWindow);
-            break;
-        case sf::Event::MouseMoved:
-        {
-            location = helpWindow.mapPixelToCoords({ event.mouseMove.x , event.mouseMove.y });
-            if (m_backButton.getGlobalBounds().contains(location))
-                m_backButton.setTexture(m_backClickedTex);
-            else
-                m_backButton.setTexture(m_backTex);
-            break;
-        }
-        default:
-            break;
-        }
-}
 
 // helper function, it copies a txt file to a sf::Text vector.
 std::vector <sf::Text> Help::fillTextVec(const std::string fileName)
@@ -109,15 +58,15 @@ std::vector <sf::Text> Help::fillTextVec(const std::string fileName)
 // sf::Sprite elements that represent characters in the game.
 void Help::fillIconsVec()
 {
-    auto kingImg = sf::Sprite(m_textures[KING]);
+    auto kingImg = sf::Sprite(m_textures[KINGICON]);
     m_iconsVec.push_back(kingImg);
-    auto mageImg = sf::Sprite(m_textures[MAGE]);
+    auto mageImg = sf::Sprite(m_textures[MAGEICON]);
     m_iconsVec.push_back(mageImg);
-    auto warriorImg = sf::Sprite(m_textures[WARRIOR]);
+    auto warriorImg = sf::Sprite(m_textures[WARRIORICON]);
     m_iconsVec.push_back(warriorImg);
-    auto thiefImg = sf::Sprite(m_textures[THIEF]);
+    auto thiefImg = sf::Sprite(m_textures[THIEFICON]);
     m_iconsVec.push_back(thiefImg);
-    auto enemyImg = sf::Sprite(m_textures[ENEMY]);
+    auto enemyImg = sf::Sprite(m_textures[ENEMYICON]);
     m_iconsVec.push_back(enemyImg);
 
     for (int counter = 0; counter < m_iconsVec.size(); counter++)
@@ -139,89 +88,3 @@ void Help::createBackButton()
     m_backButton.scale(backScale);
 }
 
-// this function handles the clicks on the characters' icons.
-// it desides which character info to send to the showInfo function. 
-void Help::handleIconsClick(const sf::Vector2f& location, sf::RenderWindow& window)
-{
-    m_iconClickedSound.play();
-    if (m_backButton.getGlobalBounds().contains(location))
-    {
-        window.close();
-        return;
-    }
-
-    std::string info;
-    for (int index = 0; index < NUM_OF_ICONS; index++)
-    {
-        if (m_iconsVec[index].getGlobalBounds().contains(location))
-            switch (index)
-            {
-            case KING: // king icon is pressed
-                info = "King";
-                break;
-            case MAGE: // mage icon is pressed
-                info = "Mage";
-                break;
-            case WARRIOR: // warrior icon is pressed
-                info = "Warrior";
-                break;
-            case THIEF: // theif icon is pressed 
-                info = "Thief";
-                break;
-            case ENEMY:
-                info = "Enemy";
-                break;
-            }
-    }
-    showInfo(info);
-}
-
-// this function opens a window (in waitEvent mode) when clicking on a character in Help window.
-// It shows more information about that character.
-void Help::showInfo(const std::string info)
-{
-    std::vector <sf::Text> info_vec = fillTextVec(info); // read info about the character from a txt file to a vector
-    auto backgroundImg = sf::Sprite(m_background);     // set background for infoWindow
-    sf::RenderWindow infoWindow(sf::VideoMode(m_width, m_hight), info);
-
-    while (infoWindow.isOpen())
-    {
-        infoWindow.clear();
-        infoWindow.draw(backgroundImg);
-        infoWindow.draw(m_backButton);
-        for (int index = 0; index < info_vec.size(); index++)
-            infoWindow.draw(info_vec[index]);
-        infoWindow.display();
-        handleInfoEvents(infoWindow);
-    }
-}
-
-// The showInfo function calls this function in a while loop to handle the events in the infoWindow.
-void Help::handleInfoEvents(sf::RenderWindow& infoWindow)
-{
-    if (auto event = sf::Event{}; infoWindow.waitEvent(event))
-        switch (event.type)
-        {
-        case sf::Event::Closed:
-            infoWindow.close(); break;
-
-        case sf::Event::MouseMoved:
-        {
-            auto location = infoWindow.mapPixelToCoords({ event.mouseMove.x , event.mouseMove.y });
-            if (m_backButton.getGlobalBounds().contains(location))
-                m_backButton.setTexture(m_backClickedTex);
-            else
-                m_backButton.setTexture(m_backTex);
-            break;
-        }
-        case sf::Event::MouseButtonReleased: //if the user pressed the mouse button
-            auto location = infoWindow.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
-            if (m_backButton.getGlobalBounds().contains(location))
-            {
-                m_iconClickedSound.play();
-                infoWindow.close();
-                return;
-            }
-            break;
-        }
-}

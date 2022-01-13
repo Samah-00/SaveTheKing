@@ -4,17 +4,15 @@
 #include <vector>
 #include <fstream>
 
+enum CONSTS { NUM_OF_ICONS = 5, CHAR_SIZE = 30 };
+enum Icons { KINGICON, MAGEICON, WARRIORICON, THIEFICON, ENEMYICON };
+
 class Help
 {
 public:
 	Help(int width, int hight);
-	void showHelp();
-	void handleHelpEvents(sf::RenderWindow&);
-	void handleIconsClick(const sf::Vector2f&, sf::RenderWindow&);
-	void showInfo(const std::string info);
-	void handleInfoEvents(sf::RenderWindow&);
 
-private:
+protected:
 	std::vector<sf::Sprite> m_iconsVec;
 	std::vector <sf::Texture> m_textures;
 	std::vector<sf::Text> m_helpText;

@@ -46,14 +46,11 @@ void Level::buildLevel()
         getline(board_file, time_str); //ignore a line
     }
 
-
     calculateLevelSize(board_file);
     Board* board = &boardController;
     board->readLevel(m_levelSize, m_timer, board_file);
     if (!boardController.startLevel(m_level, m_timeLimitedLevel))
-    {
         m_level = m_level - 1; //return to the same level
-    }
 
 }
 

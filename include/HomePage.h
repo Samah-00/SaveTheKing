@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <vector>
-#include"Help.h"
+#include"HelpController.h"
 
 inline auto font = sf::Font();
 

@@ -6,50 +6,26 @@ bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
     std::string titel = "Save The King - Level " + std::to_string(LevelNum);
     sf::RenderWindow window(sf::VideoMode(m_levelSize.x * m_iconSize, m_levelSize.y * m_iconSize + 150), titel); // 150 : add space for level info
     font1.loadFromFile("C:/Windows/Fonts/Arial.ttf");
-    auto backgroundImg = sf::Sprite(m_background);
-    auto arrow = sf::Sprite(m_textures[ARROW]);
-    //backgroundImg.scale((m_levelSize.x * 450), (m_levelSize.y * 450));
+    m_backgroundImg = sf::Sprite(m_background);
+    m_arrow = sf::Sprite(m_textures[ARROW]);
+
     LevelData levelData(LevelNum, m_levelSize);
+
     while (window.isOpen())
     {
-        float arrowPos_x = m_characters[m_player]->getPosition().x + 10;
-        float arrowPos_y = m_characters[m_player]->getPosition().y + m_iconSize;
-        arrow.setPosition(arrowPos_x, arrowPos_y);
         if (m_success)
         {
             ShowResult(m_textures[LEVEL_UP], m_Sounds[9]);
             window.close();
         }
-            
         window.clear();
-        window.draw(backgroundImg);
-        for (size_t j = 0; j < m_levelSize.y; j++)
-            for (size_t i = 0; i < m_levelSize.x; i++)
-                //ignore nullptr elements and print other elements to the window
-                if (m_board[j][i] != nullptr)
-                    if (typeid(*m_board[j][i]).name()[6] != 'E')
-                        m_board[j][i]->draw(window);
+        drawMap(window);
 
-        for (int index = 0; index < m_characters.size(); index++)
-            m_characters[index]->draw(window);
-
-        window.draw(arrow);
-
-        for (int index = 0; index < m_enemies1.size(); index++)
-        {
-            m_enemies1[index]->setDirection(m_enemies1[index]->getCurrDir());
-            sf::Vector2f pos(m_enemies1[index]->getPosition().x / m_iconSize, m_enemies1[index]->getPosition().y / m_iconSize);
-            sf::Vector2f dir(m_enemies1[index]->getDirection().x, m_enemies1[index]->getDirection().y);
-            sf::Vector2f temp = pos + dir;
-            const char* NextStep = getNextStep(temp);
-            m_enemies1[index]->MoveEnemy(m_levelSize, NextStep, temp);
-            m_enemies1[index]->draw(window);
-        }
-        
         m_clock.getElapsedTime();
         m_TimeLeft = int(m_timer - m_clock.getElapsedTime().asSeconds());
         levelData.initializeData(m_player, m_thiefHasKey, m_TimeLeft, timeLimitedLevel, m_characters[m_player]->getNumOfLives());
         levelData.draw(window, m_clock);
+
         window.display();
         if ((timeLimitedLevel && m_TimeLeft == 0) || m_characters[m_player]->getNumOfLives() == 0)
         {
@@ -57,7 +33,6 @@ bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
             return m_success;
         }
         if (auto event = sf::Event{}; window.pollEvent(event))
-        {
             switch (event.type)
             {
             case sf::Event::Closed: //if the user closes the window then close the window and exit
@@ -67,9 +42,40 @@ bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
                 handleKeyPressed(event.key.code);
                 break;
             }
-        }
     }
 }
+
+void BoardController::drawMap(sf::RenderWindow& window)
+{
+    window.draw(m_backgroundImg);
+
+    for (size_t j = 0; j < m_levelSize.y; j++)
+        for (size_t i = 0; i < m_levelSize.x; i++)
+            //ignore nullptr elements and print other elements to the window
+            if (m_board[j][i] != nullptr)
+                if (typeid(*m_board[j][i]).name()[6] != 'E')
+                    m_board[j][i]->draw(window);
+
+    for (int index = 0; index < m_characters.size(); index++)
+        m_characters[index]->draw(window);
+    // draw enemy
+    for (int index = 0; index < m_enemies1.size(); index++)
+    {
+        m_enemies1[index]->setDirection(m_enemies1[index]->getCurrDir());
+        sf::Vector2f pos(m_enemies1[index]->getPosition().x / m_iconSize, m_enemies1[index]->getPosition().y / m_iconSize);
+        sf::Vector2f dir(m_enemies1[index]->getDirection().x, m_enemies1[index]->getDirection().y);
+        sf::Vector2f temp = pos + dir;
+        const char* NextStep = getNextStep(temp);
+        m_enemies1[index]->MoveEnemy(m_levelSize, NextStep, temp);
+        m_enemies1[index]->draw(window);
+    }
+    // draw character indicator arrow
+    float arrowPos_x = m_characters[m_player]->getPosition().x + 10;
+    float arrowPos_y = m_characters[m_player]->getPosition().y + m_iconSize;
+    m_arrow.setPosition(arrowPos_x, arrowPos_y);
+    window.draw(m_arrow);
+}
+
 
 void BoardController::ShowResult(sf::Texture result, sf::Sound sound)
 {
@@ -109,7 +115,6 @@ void BoardController::handleKeyPressed(sf::Keyboard::Key key)
 
 void BoardController::handleArrowPressed(sf::Keyboard::Key key)
 {
-    const auto deltaTime = m_moveClock.restart();
     m_characters[m_player]->setDirection(key);
     sf::Vector2f pos(m_characters[m_player]->getPosition().x / m_iconSize, m_characters[m_player]->getPosition().y / m_iconSize);
     sf::Vector2f dir(m_characters[m_player]->getDirection().x * 0.3f , m_characters[m_player]->getDirection().y * 0.3f);
@@ -117,6 +122,12 @@ void BoardController::handleArrowPressed(sf::Keyboard::Key key)
     if (round(temp.x) >= m_levelSize.x || round(temp.x) < 0 ||
         round(temp.y) >= m_levelSize.y || round(temp.y) < 0)
         return;
+    handleNextStep(temp);
+}
+
+void BoardController::handleNextStep(sf::Vector2f temp)
+{
+    const auto deltaTime = m_moveClock.restart();
     const char* NextStep = getNextStep(temp);
     int moveStatus = m_characters[m_player]->move(deltaTime, NextStep);
     switch (moveStatus)
@@ -152,7 +163,7 @@ void BoardController::handleArrowPressed(sf::Keyboard::Key key)
             sf::Vector2f Ttemp(round(temp.x) * m_iconSize, round(temp.y) * m_iconSize);
             if (m_TeleportCells[index]->initializeImg().getPosition() == Ttemp)
             {
-                int SecondTeleportIndex = (index % 2 == 0) ? index + 1 : index - 1 ;
+                int SecondTeleportIndex = (index % 2 == 0) ? index + 1 : index - 1;
                 sf::Vector2f characterPos(m_TeleportCells[SecondTeleportIndex]->initializeImg().getPosition().x - 10,
                     m_TeleportCells[SecondTeleportIndex]->initializeImg().getPosition().y - 10);
                 m_characters[m_player]->initializeImg().setPosition(characterPos);
@@ -182,15 +193,14 @@ void BoardController::handleArrowPressed(sf::Keyboard::Key key)
         m_board[round(temp.y)][round(temp.x)] = nullptr;
         break;
     case S_SPEEDUP_PRESENT:
-    {
         m_Sounds[12].play();
         m_board[round(temp.y)][round(temp.x)] = nullptr;
         for (int index = 0; index < m_enemies1.size(); index++)
             m_enemies1[index]->speedUpEnemy();
-    }
         break;
     }
 }
+
 const char* BoardController::getNextStep(sf::Vector2f temp)
 {
     const char* NextStep = " ";

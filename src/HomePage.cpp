@@ -2,7 +2,7 @@
 #include <thread>
 #include <iostream>
 
-enum CONSTS { BUTTONS = 3 };
+enum _CONSTS { BUTTONS = 3 };
 
 enum Buttons { START_GAME, SHOW_HELP, EXIT_GAME, NONE };
 
@@ -101,7 +101,7 @@ std::vector <sf::Sprite> HomePage::getHomeButtons(int buttonPressed) const
 // the function builds a Help object 
 void HomePage::ShowHelp()
 {
-	Help help((int)m_dimentions.x, (int)m_dimentions.y);
+	HelpController help((int)m_dimentions.x, (int)m_dimentions.y);
 	help.showHelp();
 }
 

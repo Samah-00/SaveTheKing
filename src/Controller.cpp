@@ -2,7 +2,7 @@
 #include "Level.h"
 #include <fstream>
 
-enum CONSTS { BUTTONS = 3};
+enum CONST { BUTTONS = 3};
 
 //The constuctor for Controller, takes in the width and height of the window
 //we want to create and creates it
