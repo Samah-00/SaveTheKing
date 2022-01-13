@@ -55,12 +55,14 @@ void Enemy::MoveEnemy(sf::Vector2u levelSize, const char* NextStep, sf::Vector2f
 	if (round(temp.x) >= levelSize.x || round(temp.x) < 0 ||
 		round(temp.y) >= levelSize.y || round(temp.y) < 0)
 		return;
-	if (NextStep[0] != ' ')
+
+	if (NextStep[0] != ' ' && !(NextStep[6] == 'H' || NextStep[6] == 'I'
+		|| NextStep[6] == 'D' || NextStep[6] == 'S' || NextStep[6] == 'e'))
 	{
-		if (getCurrDir() == 72)
-			setCurrDir(71);
-		else
-			setCurrDir(72);
+			if (getCurrDir() == 72)
+				setCurrDir(71);
+			else
+				setCurrDir(72);
 	}
 	int moveStatus = move(deltaTime, NextStep);
 }

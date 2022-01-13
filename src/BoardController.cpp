@@ -144,9 +144,12 @@ void BoardController::handleNextStep(sf::Vector2f temp)
         m_board[round(temp.y)][round(temp.x)] = std::make_unique<Key>(m_textures[KEY], float(round(temp.x)), float(round(temp.y)));
         break;
     case S_KEY:
-        m_Sounds[6].play();
-        m_board[round(temp.y)][round(temp.x)] = nullptr;
-        m_thiefHasKey = true;
+        if (!m_thiefHasKey)
+        {
+            m_Sounds[6].play();
+            m_board[round(temp.y)][round(temp.x)] = nullptr;
+            m_thiefHasKey = true;
+        }
         break;
     case S_GATE:
         m_Sounds[5].play();
