@@ -56,7 +56,7 @@ protected:
 	//std::vector<Enemy*> m_enemies;
 
 	std::vector<std::unique_ptr<TeleportCell>> m_TeleportCells;
-	std::vector<sf::Clock> m_enemyClock;
+	
 	std::vector<sf::SoundBuffer> m_SoundsBuffer;
 	std::vector<sf::Sound> m_Sounds;
 	sf::Vector2u m_levelSize;

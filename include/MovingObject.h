@@ -23,5 +23,6 @@ protected:
 	sf::Vector2f m_direction;
 	bool m_firstDraw;
 	int m_numOfLives;
+	const int m_iconSize = 45;
 
 };

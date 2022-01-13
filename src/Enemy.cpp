@@ -31,11 +31,6 @@ void Enemy::draw(sf::RenderWindow& window)
 
 int Enemy::move(sf::Time deltaTime, const char* NextStep)
 {
-
-
-
-
-
 	int moveStatus = 0;
 	m_image.move(m_direction * m_enemySpeed * deltaTime.asSeconds());
 	return moveStatus;
@@ -52,4 +47,20 @@ void Enemy::setDirection(int key)
 		m_image.setTexture(m_enemy1);
 		m_direction = sf::Vector2f(-1, 0); break;
 	}
+}
+
+void Enemy::MoveEnemy(sf::Vector2u levelSize, const char* NextStep, sf::Vector2f temp)
+{
+	const auto deltaTime = m_enemyClock.restart();
+	if (round(temp.x) >= levelSize.x || round(temp.x) < 0 ||
+		round(temp.y) >= levelSize.y || round(temp.y) < 0)
+		return;
+	if (NextStep[0] != ' ')
+	{
+		if (getCurrDir() == 72)
+			setCurrDir(71);
+		else
+			setCurrDir(72);
+	}
+	int moveStatus = move(deltaTime, NextStep);
 }

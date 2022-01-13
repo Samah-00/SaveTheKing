@@ -8,8 +8,7 @@ public:
 	using Board::Board;
 	bool startLevel(int levelNum, bool timeLimitedLevel);
 	void handleKeyPressed(sf::Keyboard::Key key);
-	const char* getNextStep(sf::Time deltaTime, sf::Vector2f temp);
-	void MoveEnemy(int enemyIndex);
+	const char* getNextStep(sf::Vector2f temp);
 	void handleArrowPressed(sf::Keyboard::Key key);
 	void ShowResult(sf::Texture result, sf::Sound);
 

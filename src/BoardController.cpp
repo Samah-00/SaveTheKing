@@ -10,7 +10,6 @@ bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
     auto arrow = sf::Sprite(m_textures[ARROW]);
     //backgroundImg.scale((m_levelSize.x * 450), (m_levelSize.y * 450));
     LevelData levelData(LevelNum, m_levelSize);
-    m_enemyClock.resize(m_enemies1.size());
     while (window.isOpen())
     {
         float arrowPos_x = m_characters[m_player]->getPosition().x + 10;
@@ -38,7 +37,12 @@ bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
 
         for (int index = 0; index < m_enemies1.size(); index++)
         {
-            MoveEnemy(index);
+            m_enemies1[index]->setDirection(m_enemies1[index]->getCurrDir());
+            sf::Vector2f pos(m_enemies1[index]->getPosition().x / m_iconSize, m_enemies1[index]->getPosition().y / m_iconSize);
+            sf::Vector2f dir(m_enemies1[index]->getDirection().x, m_enemies1[index]->getDirection().y);
+            sf::Vector2f temp = pos + dir;
+            const char* NextStep = getNextStep(temp);
+            m_enemies1[index]->MoveEnemy(m_levelSize, NextStep, temp);
             m_enemies1[index]->draw(window);
         }
         
@@ -103,32 +107,6 @@ void BoardController::handleKeyPressed(sf::Keyboard::Key key)
     }
 }
 
-void BoardController::MoveEnemy(int enemyIndex)
-{
-    const auto deltaTime = m_enemyClock[enemyIndex].restart();
-    m_enemies1[enemyIndex]->setDirection(m_enemies1[enemyIndex]->getCurrDir());
-    sf::Vector2f pos(m_enemies1[enemyIndex]->getPosition().x / m_iconSize, m_enemies1[enemyIndex]->getPosition().y / m_iconSize);
-    sf::Vector2f dir(m_enemies1[enemyIndex]->getDirection().x, m_enemies1[enemyIndex]->getDirection().y);
-    sf::Vector2f temp = pos + dir;
-    if (round(temp.x) >= m_levelSize.x || round(temp.x) < 0 ||
-        round(temp.y) >= m_levelSize.y || round(temp.y) < 0)
-        return;
-    const char* NextStep = getNextStep(deltaTime, temp);
-    //std::cout << NextStep << std::endl;
-    if (NextStep[0] != ' ')
-    {
-        if (m_enemies1[enemyIndex]->getCurrDir() == 72)
-            m_enemies1[enemyIndex]->setCurrDir(71);
-        else
-            m_enemies1[enemyIndex]->setCurrDir(72);
-    }
-    int moveStatus = m_enemies1[enemyIndex]->move(deltaTime, NextStep);
-    /*
-    if (NextStep[0] == ' ')
-        m_board[round(temp.y)][round(temp.x)] =
-            std::move(m_board[round(m_enemies[enemyIndex]->getIndex().y)][round(m_enemies[enemyIndex]->getIndex().x)]);*/
-}
-
 void BoardController::handleArrowPressed(sf::Keyboard::Key key)
 {
     const auto deltaTime = m_moveClock.restart();
@@ -139,7 +117,7 @@ void BoardController::handleArrowPressed(sf::Keyboard::Key key)
     if (round(temp.x) >= m_levelSize.x || round(temp.x) < 0 ||
         round(temp.y) >= m_levelSize.y || round(temp.y) < 0)
         return;
-    const char* NextStep = getNextStep(deltaTime, temp);
+    const char* NextStep = getNextStep(temp);
     int moveStatus = m_characters[m_player]->move(deltaTime, NextStep);
     switch (moveStatus)
     {
@@ -208,15 +186,12 @@ void BoardController::handleArrowPressed(sf::Keyboard::Key key)
         m_Sounds[12].play();
         m_board[round(temp.y)][round(temp.x)] = nullptr;
         for (int index = 0; index < m_enemies1.size(); index++)
-        {
             m_enemies1[index]->speedUpEnemy();
-        }
     }
-        
         break;
     }
 }
-const char* BoardController::getNextStep(sf::Time deltaTime, sf::Vector2f temp)
+const char* BoardController::getNextStep(sf::Vector2f temp)
 {
     const char* NextStep = " ";
     if (m_board[round(temp.y)][round(temp.x)] != nullptr)

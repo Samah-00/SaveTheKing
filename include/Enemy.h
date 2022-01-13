@@ -14,10 +14,12 @@ public:
 	void setCurrDir(int dir) { m_currDir = dir; };
 	int getCurrDir() { return m_currDir; };
 	void speedUpEnemy() { m_enemySpeed *= 2; };
+	void MoveEnemy(sf::Vector2u levelSize, const char* NextStep, sf::Vector2f temp);
 	~Enemy() = default;
 
 private:
 	int m_currDir;
+	sf::Clock m_enemyClock;
 	sf::Texture m_enemy1;
 	sf::Texture m_enemy2;
 	float m_enemySpeed;
