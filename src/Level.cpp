@@ -7,6 +7,7 @@ Level::Level() :
     m_timeLimitedLevel(false)
 {
     m_GameMusic.openFromFile("GameSound.wav");
+    m_GameMusic.setLoop(true);
     m_congrats.loadFromFile("YouWin.jpg");
     std::ifstream levels_num_file;
     std::string line;
@@ -80,6 +81,7 @@ void Level::ShowWin()
     sf::Music win;
     win.openFromFile("winning.wav");
     win.play();
+    win.setLoop(true);
     auto congratsImg = sf::Sprite(m_congrats);
     sf::RenderWindow congratsWindow(sf::VideoMode(m_congrats.getSize().x, m_congrats.getSize().y), "Help");
     while (congratsWindow.isOpen())

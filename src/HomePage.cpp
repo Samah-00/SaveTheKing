@@ -59,6 +59,7 @@ void HomePage::initializeButtonsVecs()
 void HomePage::playMusic()
 {
 	m_homePageMusic.play();
+	m_homePageMusic.setLoop(true);
 }
 
 void HomePage::stopMusic()
