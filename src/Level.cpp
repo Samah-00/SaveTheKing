@@ -7,6 +7,7 @@ Level::Level() :
     m_timeLimitedLevel(false)
 {
     m_GameMusic.openFromFile("GameSound.wav");
+    m_congrats.loadFromFile("YouWin.jpg");
     std::ifstream levels_num_file;
     std::string line;
     levels_num_file.open("Num of levels.txt");
@@ -69,6 +70,32 @@ void Level::levelOperator()
         m_levelSize.x = m_levelSize.y = 0;
         m_fileName = createFileName();
         buildLevel(); //why to make file name private? when lose/time is up
+    }
+    ShowWin();
+}
+
+void Level::ShowWin()
+{
+    m_GameMusic.stop();
+    sf::Music win;
+    win.openFromFile("winning.wav");
+    win.play();
+    auto congratsImg = sf::Sprite(m_congrats);
+    sf::RenderWindow congratsWindow(sf::VideoMode(m_congrats.getSize().x, m_congrats.getSize().y), "Help");
+    while (congratsWindow.isOpen())
+    {
+        congratsWindow.clear();
+        congratsWindow.draw(congratsImg);
+        congratsWindow.display();
+
+        if (auto event = sf::Event{}; congratsWindow.waitEvent(event))
+            switch (event.type)
+            {
+            case sf::Event::Closed:
+            case sf::Event::KeyPressed:
+                congratsWindow.close();
+                break;
+            }
     }
 }
 

@@ -11,7 +11,6 @@ class MovingObject : public GameObject
 {
 public:
 	MovingObject(sf::Texture& image, float x, float y) : GameObject(image, x, y), m_firstDraw(true), m_numOfLives(3) {};
-	//using GameObject::GameObject;
 	virtual int move(sf::Time deltaTime, const char* NextStep) = 0;
 	virtual sf::Sprite& initializeImg() = 0;
 	virtual void setDirection(sf::Keyboard::Key key);

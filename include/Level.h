@@ -19,6 +19,7 @@ public:
 	void buildLevel();
 	void levelOperator();
 	int getLevelNumber() const { return m_level; };
+	void ShowWin();
 
 private:
 	int m_level;
@@ -27,6 +28,7 @@ private:
 	float m_timer;
 	sf::Text m_time;
 	sf::Music m_GameMusic;
+	sf::Texture m_congrats;
 	std::string m_fileName;
 	sf::Vector2u m_levelSize;
 	bool m_timeLimitedLevel;
