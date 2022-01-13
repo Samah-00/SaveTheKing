@@ -2,7 +2,6 @@
                                                "Controller.cpp"
                                                "HomePage.cpp"
                                                "Level.cpp"
-                                               "TimeLimitedLevel.cpp"
                                                "LevelData.cpp"
                                                "MovingObject.cpp"
                                                "BoardController.cpp"

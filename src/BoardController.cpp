@@ -43,6 +43,7 @@ bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
                 break;
             }
     }
+    return m_success;
 }
 
 void BoardController::drawMap(sf::RenderWindow& window)
