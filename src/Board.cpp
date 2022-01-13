@@ -88,7 +88,6 @@ void Board::readChar(const char c, const size_t i, size_t& j)
     for (unsigned int index = 0; index < m_levelSize.y; index++)
         m_board[index].resize(m_levelSize.x);
      
-    static int enemiesNum = 0;
     m_characters.resize(4);
 
     if (c != '\n') //ignore the break
@@ -142,16 +141,8 @@ void Board::readChar(const char c, const size_t i, size_t& j)
             m_characters[THIEF] =  std::make_unique<Thief>(m_textures[THIEF], float(i), float(j));
             break;
         case D_GHOST:
-            //m_enemies1.emplace_back(std::make_unique<Enemy>(m_textures[TELEPORT_CELL], float(i), float(j)));
-            enemiesNum++;
-            m_enemies1.resize(enemiesNum);
-            m_enemies1[enemiesNum-1] = std::make_unique<Enemy>(m_textures[GHOST], float(i), float(j));
-            //m_characters[THIEF] = std::make_unique<Thief>(m_textures[THIEF], float(i), float(j));
-            //m_enemies1.emplace_back(std::make_unique<Enemy>(m_textures[GHOST], float(i), float(j)));
-                //m_board[j][i] = std::make_unique<Enemy>(m_textures[GHOST], float(i), float(j));
-            //m_enemies.emplace_back((std::make_unique<Enemy*>(m_textures[GHOST], float(i), float(j))));
+            m_enemies1.emplace_back(std::make_unique<Enemy>(m_textures[GHOST], float(i), float(j)));
             break;
-
         default:
             break;
         }
