@@ -1,4 +1,4 @@
-To switch between the character press p.
+To switch between the characters press p.
 To move right press the right arrow.
 To move left press the left arrow.
 To move up press the up arrow.
