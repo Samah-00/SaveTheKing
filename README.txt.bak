@@ -121,8 +121,8 @@ in the file "Number of levels.txt" in the resources repository.
 ---------------------------------------------------------------------------------------------------------
 --------------------------------------------- List of Files ---------------------------------------------
 ---------------------------------------------------------------------------------------------------------
-Source files:-
---------------
+Source files:
+-------------
  ● main.cpp: gets the dimentions of the home page from the background image and starts the game by 
    creating a controller.
  ● HomePage.cpp: Opens a home page window, it contains functions that handle the clicks on its buttons.
@@ -148,8 +148,8 @@ Source files:-
  ● Mage.cpp: creats a mage, handles his moves and changes his image according to his movement direction.
  ● Warrior.cpp: creats a warrior, handles his moves and changes his image according to his move direction.
  ● Thief.cpp: creats a thief, handles his moves and changes his image according to his movement direction.
-Headers:-
----------
+Headers:
+--------
  ● GameObject.h: contains a c-tor that recieves a texture, and two flaots which it saves as the sprite
    image and the position of the object.
  ● StaticObject.h: uses the GameObject class.
