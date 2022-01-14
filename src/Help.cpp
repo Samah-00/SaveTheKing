@@ -23,10 +23,6 @@ Help::Help(int width, int hight) :
     createBackButton();
 }
 
-
-
-
-
 // helper function, it copies a txt file to a sf::Text vector.
 std::vector <sf::Text> Help::fillTextVec(const std::string fileName)
 {
@@ -40,6 +36,7 @@ std::vector <sf::Text> Help::fillTextVec(const std::string fileName)
         getline(data_file, line);
         text_vec.push_back(sf::Text(line, m_font));
     }
+    //preparing the text to be printied on the screen
     for (int index = 0; index < text_vec.size(); index++)
     {
         sf::Vector2f linePos(float(0), float(CHAR_SIZE * index));
@@ -69,6 +66,7 @@ void Help::fillIconsVec()
     auto enemyImg = sf::Sprite(m_textures[ENEMYICON]);
     m_iconsVec.push_back(enemyImg);
 
+    //preparing the characters' icons to be printied on the screen
     for (int counter = 0; counter < m_iconsVec.size(); counter++)
     {
         sf::Vector2f iconLoc(float((m_width / NUM_OF_ICONS) * counter), float(CHAR_SIZE * (m_helpText.size() + 2))); //CHAR_WIDTH * m_helpText.size() to print the images under the text

@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Board.h"
 
+//the c-tor for the Board class, it loads all the pictures and sounds we will need in the game
 Board::Board() : m_player(0), m_timer(0), m_thiefHasKey(false), m_success(false)
 {
     //set background
@@ -46,6 +47,7 @@ Board::Board() : m_player(0), m_timer(0), m_thiefHasKey(false), m_success(false)
     InitializeSound();
 }
 
+//this function adds the sounds we created into a database (vector)
 void Board::InitializeSound()
 {
     for (int index = 0; index < m_SoundsBuffer.size(); index++)
@@ -69,7 +71,6 @@ void Board::readLevel(sf::Vector2u levelSize, int timer, std::ifstream& board_fi
 
     //start reading the level
     for (size_t j = 0; j < m_levelSize.y; j++)
-    {
         for (size_t i = 0; i <= m_levelSize.x ; i++)
         {
             c = char(board_file.get());
@@ -77,7 +78,6 @@ void Board::readLevel(sf::Vector2u levelSize, int timer, std::ifstream& board_fi
                 break;
             readChar(c, i, j);
         }
-    }
 }
 
 //this function reads every character in the board file and creates
@@ -92,7 +92,7 @@ void Board::readChar(const char c, const size_t i, size_t& j)
 
     if (c != '\n') //ignore the break
     {
-        switch (c)
+        switch (c) //based on the character that we read, create the appropriate object
         {
         case D_WALL:
             m_board[j][i] = std::make_unique<Wall>(m_textures[WALL], float(i), float(j));

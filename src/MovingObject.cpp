@@ -1,5 +1,6 @@
 #include "MovingObject.h"
 
+//this function sets the direction of the object based on the arrow key that has been pressed
 void MovingObject::setDirection(sf::Keyboard::Key key)
 {
 	switch (key)
@@ -11,7 +12,6 @@ void MovingObject::setDirection(sf::Keyboard::Key key)
 	case sf::Keyboard::Key::Right:
 		m_direction = sf::Vector2f(1, 0);  break;
 	case sf::Keyboard::Key::Left:
-
 		m_direction = sf::Vector2f(-1, 0);  break;
 	}
 }

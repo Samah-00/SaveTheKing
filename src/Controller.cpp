@@ -29,9 +29,7 @@ void Controller::operateGame()
         m_window.clear();
         m_window.draw(backgroundImg);
         for (int counter = 0; counter < BUTTONS; counter++)
-        {
             m_window.draw(m_home.getHomeButtons(m_buttonPressed)[counter]);
-        }
         m_window.display();
         if (auto event = sf::Event{}; m_window.pollEvent(event))
         {

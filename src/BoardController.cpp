@@ -21,14 +21,16 @@ bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
         window.clear();
         drawMap(window);
 
-        m_clock.getElapsedTime();
+        m_clock.getElapsedTime();//calculating the clock and the timer for the level and updating it
         m_TimeLeft = int(m_timer - m_clock.getElapsedTime().asSeconds());
         levelData.initializeData(m_player, m_thiefHasKey, m_TimeLeft, timeLimitedLevel, m_characters[m_player]->getNumOfLives());
-        levelData.draw(window, m_clock);
+        levelData.draw(window, m_clock);//printing the level's data after updating it
 
         window.display();
+        
+        //the player loses if: 1.Time is up. 2.the character ended its lives
         if ((timeLimitedLevel && m_TimeLeft == 0) || m_characters[m_player]->getNumOfLives() == 0)
-        {
+        { //if the player lost the game then show a result message and exit
             ShowResult(m_textures[GAME_OVER], m_Sounds[10]);
             return m_success;
         }
@@ -46,18 +48,19 @@ bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
     return m_success;
 }
 
+//this function draws the map of the level on the window that is recieved
 void BoardController::drawMap(sf::RenderWindow& window)
 {
     window.draw(m_backgroundImg);
 
-    for (size_t j = 0; j < m_levelSize.y; j++)
+    for (size_t j = 0; j < m_levelSize.y; j++) //drawing the board
         for (size_t i = 0; i < m_levelSize.x; i++)
             //ignore nullptr elements and print other elements to the window
             if (m_board[j][i] != nullptr)
                 if (typeid(*m_board[j][i]).name()[6] != 'E')
                     m_board[j][i]->draw(window);
 
-    for (int index = 0; index < m_characters.size(); index++)
+    for (int index = 0; index < m_characters.size(); index++) //drawing the main chracters
         m_characters[index]->draw(window);
     // draw enemy
     for (int index = 0; index < m_enemies1.size(); index++)
@@ -77,7 +80,7 @@ void BoardController::drawMap(sf::RenderWindow& window)
     window.draw(m_arrow);
 }
 
-
+//this function shows the result of the level after finishing it (either win or lost)
 void BoardController::ShowResult(sf::Texture result, sf::Sound sound)
 {
     sf::RenderWindow resultWindow(sf::VideoMode(result.getSize().x, result.getSize().y), " ** LEVEL\'S RESULT ** ");
@@ -88,7 +91,6 @@ void BoardController::ShowResult(sf::Texture result, sf::Sound sound)
         resultWindow.clear();
         resultWindow.draw(resultImg);
         resultWindow.display();
-
         if (auto event = sf::Event{}; resultWindow.waitEvent(event))
             switch (event.type)
             {
@@ -100,117 +102,121 @@ void BoardController::ShowResult(sf::Texture result, sf::Sound sound)
     }
 }
 
+//this function handles the case if any key on the keyboard is pressed
 void BoardController::handleKeyPressed(sf::Keyboard::Key key)
 {
     switch (key)
     {
-    case sf::Keyboard::Key::P:
+    case sf::Keyboard::Key::P: //if the pressed key is "P" then change the character playing
         m_player = (m_player == 3) ? 0 : m_player + 1;
         break;
     case sf::Keyboard::Key::Down: case sf::Keyboard::Key::Up:
     case sf::Keyboard::Key::Left: case sf::Keyboard::Key::Right:
-        handleArrowPressed(key);
+        handleArrowPressed(key); //if the pressed key is one of the arrows to move the characters
         break;
     }
 }
 
+//this function handles the case if one of the aroows on the keyboard is pressed
 void BoardController::handleArrowPressed(sf::Keyboard::Key key)
 {
-    m_characters[m_player]->setDirection(key);
+    m_characters[m_player]->setDirection(key); //set the new direction of the playing character
     sf::Vector2f pos(m_characters[m_player]->getPosition().x / m_iconSize, m_characters[m_player]->getPosition().y / m_iconSize);
     sf::Vector2f dir(m_characters[m_player]->getDirection().x * 0.3f , m_characters[m_player]->getDirection().y * 0.3f);
-    sf::Vector2f temp = pos + dir;
+    sf::Vector2f temp = pos + dir; //the new location that the character will go to
     if (round(temp.x) >= m_levelSize.x || round(temp.x) < 0 ||
         round(temp.y) >= m_levelSize.y || round(temp.y) < 0)
         return;
-    handleNextStep(temp);
+    handleNextStep(temp); //check the new location
 }
 
+//this function checks the location that the character wants to go to and handles every case
 void BoardController::handleNextStep(sf::Vector2f temp)
 {
     const auto deltaTime = m_moveClock.restart();
-    const char* NextStep = getNextStep(temp);
-    int moveStatus = m_characters[m_player]->move(deltaTime, NextStep);
-    switch (moveStatus)
+    const char* NextStep = getNextStep(temp); //get the object in the new location
+    int moveStatus = m_characters[m_player]->move(deltaTime, NextStep);//move the character and return the moving status
+    switch (moveStatus) //handle every status the was returned from moving the character
     {
-    case S_BLOCKED:
+    case S_BLOCKED: //the character found that its way is blocked
         m_Sounds[4].play();
         break;
-    case S_FIRE:
+    case S_FIRE: //the character found that in its way there is fire
         m_Sounds[3].play();
-        m_board[round(temp.y)][round(temp.x)] = nullptr;
+        m_board[round(temp.y)][round(temp.x)] = nullptr; //deleting the fire
         break;
-    case S_ORC:
+    case S_ORC: //the character found that in its way there is a orc
         m_Sounds[0].play();
-        m_board[round(temp.y)][round(temp.x)] = std::make_unique<Key>(m_textures[KEY], float(round(temp.x)), float(round(temp.y)));
+        m_board[round(temp.y)][round(temp.x)] = std::make_unique<Key>(m_textures[KEY], float(round(temp.x)), float(round(temp.y)));//put a key after killing the orc
         break;
-    case S_KEY:
-        if (!m_thiefHasKey)
+    case S_KEY: //the character found that in its way there is a key
+        if (!m_thiefHasKey)//take the key only if the thief doesn't have a key in that moment
         {
             m_Sounds[6].play();
             m_board[round(temp.y)][round(temp.x)] = nullptr;
             m_thiefHasKey = true;
         }
         break;
-    case S_GATE:
+    case S_GATE: //the character found that in its way there is a gate
         m_Sounds[5].play();
         m_board[round(temp.y)][round(temp.x)] = std::make_unique<UnlockedGate>(m_textures[UNLOCKED_GATE], float(round(temp.x)), float(round(temp.y)));
         m_thiefHasKey = false;
         break;
-    case S_CHAIR:
+    case S_CHAIR: //the character found that in its way there is a chair(the king's castle)
         m_success = true;
         break;
-    case S_TELE:
+    case S_TELE: //the character found that in its way there is a teleport cell
         m_Sounds[2].play();
         for (int index = 0; index < m_TeleportCells.size(); index++)
-        {
+        { //finding the other cell that the character should get out of
             sf::Vector2f Ttemp(round(temp.x) * m_iconSize, round(temp.y) * m_iconSize);
             if (m_TeleportCells[index]->initializeImg().getPosition() == Ttemp)
             {
                 int SecondTeleportIndex = (index % 2 == 0) ? index + 1 : index - 1;
                 sf::Vector2f characterPos(m_TeleportCells[SecondTeleportIndex]->initializeImg().getPosition().x - 10,
-                    m_TeleportCells[SecondTeleportIndex]->initializeImg().getPosition().y - 10);
-                m_characters[m_player]->initializeImg().setPosition(characterPos);
+                    m_TeleportCells[SecondTeleportIndex]->initializeImg().getPosition().y - 10);// 10 => so the character is beside the cell
+                m_characters[m_player]->initializeImg().setPosition(characterPos);//teleport the character to that other cell
             }
         }
         break;
-    case S_KILL_PRESENT:
+    case S_KILL_PRESENT: //the character found that in its way there is a kill present
         m_Sounds[0].play();
         m_board[round(temp.y)][round(temp.x)] = nullptr;
-        m_enemies1.clear();
+        m_enemies1.clear(); //kill all enemies
         break;
-    case S_EXTRA_TIME_PRESENT:
+    case S_EXTRA_TIME_PRESENT: //the character found that in its way there is increase time present
         m_Sounds[8].play();
         m_board[round(temp.y)][round(temp.x)] = nullptr;
         m_timer += 5;
         break;
-    case S_LESS_TIME_PRESENT:
+    case S_LESS_TIME_PRESENT: //the character found that in its way there is decrease time present
         m_Sounds[7].play();
         m_board[round(temp.y)][round(temp.x)] = nullptr;
         m_timer -= 5;
         break;
-    case S_GHOST:
+    case S_GHOST: //the character found that in its way there is a ghost
         m_Sounds[1].play();
         break;
-    case S_HEALING_KIT:
+    case S_HEALING_KIT: //the character found that in its way there is a healing kit present
         m_Sounds[11].play();
         m_board[round(temp.y)][round(temp.x)] = nullptr;
         break;
-    case S_SPEEDUP_PRESENT:
+    case S_SPEEDUP_PRESENT: //the character found that in its way there is a speed up the enemies(ghosts) present
         m_Sounds[12].play();
         m_board[round(temp.y)][round(temp.x)] = nullptr;
-        for (int index = 0; index < m_enemies1.size(); index++)
+        for (int index = 0; index < m_enemies1.size(); index++)//speed up all the enemies(ghosts) in the game
             m_enemies1[index]->speedUpEnemy();
         break;
     }
 }
 
+//this function gets the objects that exists in the new location that the character wants to go to
 const char* BoardController::getNextStep(sf::Vector2f temp)
 {
     const char* NextStep = " ";
     if (m_board[round(temp.y)][round(temp.x)] != nullptr)
         NextStep = typeid(*m_board[round(temp.y)][round(temp.x)]).name();
-    for (int index = 0 ; index < m_enemies1.size(); index++)
+    for (int index = 0 ; index < m_enemies1.size(); index++)//check if the character in front is an enemy(ghost)
     {
         sf::Vector2f temp2 = m_enemies1[index]->getPosition() / float(m_iconSize);
             if (temp2.x - 0.5f <= temp.x && temp.x <= temp2.x + 0.5f &&
