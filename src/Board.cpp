@@ -148,3 +148,4 @@ void Board::readChar(const char c, const size_t i, size_t& j)
         }
     }
 }
+
