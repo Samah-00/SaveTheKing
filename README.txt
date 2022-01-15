@@ -70,8 +70,7 @@ In a for loop, the Level object starts new levels (NUM_OF_LEVELS times). For eac
 a text file to calculate the size of the board and whether or not the level is time-limited.
 Lastly, it creates a BoardController object. Using polymorphism a Board object is built from the
 BoardController object.
-The 
- object reads the map of the level from a text file and saves it in a vector.
+The  Board object reads the map of the level from a text file and saves it in a vector.
 The BoardController prints the board to the game window and handles the moves and procedure of the game.
 It also creates a levelData object when it starts a level, the levelData object updates the info about
 the current level such as the character that's moving, the timer and more.
@@ -141,7 +140,7 @@ Source files:-
    of it, recieves data from the character's move functions and updates the board in accordance.
  ● levelData.cpp: for each level, a levelData object is created to initialize, update and draw the data
    of the level under the board on the window. 
- ● MovungObject.cpp: decides the direction of the moving objects according to the keyboard's keys,
+ ● MovingObject.cpp: decides the direction of the moving objects according to the keyboard's keys,
    it also returns a direction or a position of a movung object.
  ● Enemy.cpp: creates an enemy object, moves it and updates its direction.
  ● King.cpp: creats a king, handles his moves and changes his image according to his movement direction.
@@ -181,6 +180,7 @@ Headers:-
    the window and can return the image when needed.
  ● SpeedUpPresent.h: creates a "speed enemy up" present using the Present c-tor, draws  a present on
    the window and can return the image when needed.
+ ● More headers contains the classes, functions and enums that are used in the sources files.
 Resources:
 ----------
 Files of images, text or sound that are used in the game.
@@ -194,10 +194,11 @@ Base Classes: Board, Help, GameObject.
 Derived Classes: BoardController, HelpController, StaticObject, MovingObject.
 Classes Derived from StaticObject: Present, Wall, Gate, etc...
 Classes Derived from MovingObject: Enemy, King, Mage, etc...
+Classes Derived from Present: HealingKitPresent, DecreaseTimePresent, etc...
 Vectors:
 --------
 The board of each level is saved in a vector of vectors of unique  pointers to GameObjects. We also
-used vectors to save smaller data such as the vector of the moving enemies.
+used vectors to save smaller data such as the vector of moving enemies.
 ---------------------------------------------------------------------------------------------------------
 ------------------------------------------ Noteable Algorithms ------------------------------------------
 ---------------------------------------------------------------------------------------------------------
