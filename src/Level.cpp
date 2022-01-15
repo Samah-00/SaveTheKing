@@ -1,5 +1,6 @@
 #include "Level.h"
 
+//the c-tor of the level class, it initializes the needed photos and sounds and objects
 Level::Level() :
     m_level(1),
     m_timer(0),
@@ -11,7 +12,7 @@ Level::Level() :
     m_congrats.loadFromFile("YouWin.jpg");
     std::ifstream levels_num_file;
     std::string line;
-    levels_num_file.open("Num of levels.txt");
+    levels_num_file.open("Num of levels.txt");//get the number of levels the user wants to play
     getline(levels_num_file, line);
     m_num_of_levels = stoi(line);
     levels_num_file.close();
@@ -28,8 +29,7 @@ void Level::buildLevel()
     board_file.open(m_fileName);
     if (!board_file) //if opening the file faild. . .
     {
-        std::cerr << "Error: File could NOT be opened !!!";
-        exit(1);
+        std::cerr << "Error: File could NOT be opened !!!"; exit(1);
     }
     std::string time_str;
     getline(board_file, time_str); //reading the data that indicates if the level is time limited or not
@@ -51,7 +51,7 @@ void Level::buildLevel()
     calculateLevelSize(board_file);
     Board* board = &boardController;
     board->readLevel(m_levelSize, m_timer, board_file);
-    if (!boardController.startLevel(m_level, m_timeLimitedLevel))
+    if (!boardController.startLevel(m_level, m_timeLimitedLevel))//if the player lost the game
         m_level = m_level - 1; //return to the same level
 
 }
@@ -62,19 +62,20 @@ std::string Level::createFileName()
     return (std::to_string(m_level) + ".txt");
 }
 
-//this function operates the level and runs it
+//this function operates the all the levels and runs them
 void Level::levelOperator()
 {
-    for (; m_level <= m_num_of_levels; m_level++)//go through all the levels we have
+    for ( ; m_level <= m_num_of_levels; m_level++)//go through all the levels we have
     {
         m_GameMusic.play();
         m_levelSize.x = m_levelSize.y = 0;
         m_fileName = createFileName();
-        buildLevel(); //why to make file name private? when lose/time is up
+        buildLevel();
     }
     ShowWin();
 }
 
+//this function show a winning window after finishing all the levels and winning the game
 void Level::ShowWin()
 {
     m_GameMusic.stop();
@@ -83,7 +84,7 @@ void Level::ShowWin()
     win.play();
     win.setLoop(true);
     auto congratsImg = sf::Sprite(m_congrats);
-    sf::RenderWindow congratsWindow(sf::VideoMode(m_congrats.getSize().x, m_congrats.getSize().y), "Help");
+    sf::RenderWindow congratsWindow(sf::VideoMode(m_congrats.getSize().x, m_congrats.getSize().y), "congratulations");
     while (congratsWindow.isOpen())
     {
         congratsWindow.clear();
@@ -95,8 +96,7 @@ void Level::ShowWin()
             {
             case sf::Event::Closed:
             case sf::Event::KeyPressed:
-                congratsWindow.close();
-                break;
+                congratsWindow.close(); break;
             }
     }
 }

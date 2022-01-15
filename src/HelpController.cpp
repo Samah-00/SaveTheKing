@@ -13,10 +13,10 @@ void HelpController::showHelp()
     {
         helpWindow.clear();
         helpWindow.draw(backgroundImg);
-        for (int index = 0; index < m_helpText.size(); index++)
+        for (int index = 0; index < m_helpText.size(); index++)//draw the text
             helpWindow.draw(m_helpText[index]);
 
-        for (int index = 0; index < m_iconsVec.size(); index++)
+        for (int index = 0; index < m_iconsVec.size(); index++)//draw the icons
             helpWindow.draw(m_iconsVec[index]);
         helpWindow.draw(m_backButton);
         helpWindow.display();
@@ -32,14 +32,13 @@ void HelpController::handleHelpEvents(sf::RenderWindow& helpWindow)
         switch (event.type)
         {
         case sf::Event::Closed:
-            helpWindow.close();
-            break;
+            helpWindow.close(); break;
 
         case sf::Event::MouseButtonReleased: //if the user pressed the mouse button
             location = helpWindow.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
             handleIconsClick(location, helpWindow);
             break;
-        case sf::Event::MouseMoved:
+        case sf::Event::MouseMoved: //if the user moved the mouse on the window
         {
             location = helpWindow.mapPixelToCoords({ event.mouseMove.x , event.mouseMove.y });
             if (m_backButton.getGlobalBounds().contains(location))
@@ -60,33 +59,25 @@ void HelpController::handleIconsClick(const sf::Vector2f& location, sf::RenderWi
     m_iconClickedSound.play();
     if (m_backButton.getGlobalBounds().contains(location))
     {
-        window.close();
-        return;
+        window.close(); return;
     }
 
     std::string info;
     for (int index = 0; index < NUM_OF_ICONS; index++)
-    {
         if (m_iconsVec[index].getGlobalBounds().contains(location))
             switch (index)
             {
             case KINGICON: // king icon is pressed
-                info = "King";
-                break;
+                info = "King"; break;
             case MAGEICON: // mage icon is pressed
-                info = "Mage";
-                break;
+                info = "Mage"; break;
             case WARRIORICON: // warrior icon is pressed
-                info = "Warrior";
-                break;
+                info = "Warrior"; break;
             case THIEFICON: // theif icon is pressed 
-                info = "Thief";
-                break;
-            case ENEMYICON:
-                info = "Enemy";
-                break;
+                info = "Thief"; break;
+            case ENEMYICON: // enemy icon is pressed 
+                info = "Enemy"; break;
             }
-    }
     showInfo(info);
 }
 

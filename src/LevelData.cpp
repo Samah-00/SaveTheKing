@@ -1,5 +1,6 @@
 #include "LevelData.h"
 
+//the c-tor for the LevelData class, it initializes the variables of the level's data
 LevelData::LevelData(int level, sf::Vector2u levelSize) : m_levelNum(level),
 m_levelSize(levelSize),
 m_player(0),
@@ -11,16 +12,17 @@ m_timeLimitedLevel(false)
 	m_font.loadFromFile("C:/Windows/Fonts/broadw.ttf");
 }
 
+//this function initializes the data for the level before showing it
 void LevelData::initializeData(int player, bool key, int timeLeft, bool timeLimitedLevel, int lives)
 {
-	m_player = player;
-	m_thiefHasKey = key;
-	m_timeLeft = timeLeft;
-	m_timeLimitedLevel = timeLimitedLevel;
-	m_numOfLives = lives;
+	m_player = player; //setting the current player
+	m_thiefHasKey = key; //identifying if the thief has a key at the moment or not
+	m_timeLeft = timeLeft; //setting how much time is left for the level to end
+	m_timeLimitedLevel = timeLimitedLevel; //identifying if the level we're in is a time limited level or not
+	m_numOfLives = lives; //setting how many lives is left for the character that's playing now
 }
 
-
+//this function prints the level's data on the window
 void LevelData::draw(sf::RenderWindow& window, sf::Clock clock)
 {
 	updateLevelData(clock);
@@ -34,6 +36,7 @@ void LevelData::draw(sf::RenderWindow& window, sf::Clock clock)
 	m_data.clear();
 }
 
+//this function keeps updating the data every moment to keep the knfo up to date
 void LevelData::updateLevelData(sf::Clock clock)
 {
 	NameOfCharacter(); // update the name of the current character
@@ -46,7 +49,6 @@ void LevelData::updateLevelData(sf::Clock clock)
 	m_titels.push_back(sf::Text("Time passed", m_font));
 	if (m_timeLimitedLevel)
 		m_titels.push_back(sf::Text("Time left", m_font));
-
 	m_data.push_back(sf::Text(std::to_string(m_levelNum), m_font));
 	m_data.push_back(sf::Text(m_currCharacter, m_font));
 	m_data.push_back(sf::Text(m_keyData, m_font));
@@ -56,6 +58,7 @@ void LevelData::updateLevelData(sf::Clock clock)
 		m_data.push_back(sf::Text(std::to_string(m_timeLeft), m_font));
 }
 
+//this function prepares the design and location of the level's data
 void LevelData::setDataDesign()
 {
 	int num_of_data = m_timeLimitedLevel ? 6 : 5;
@@ -74,21 +77,14 @@ void LevelData::setDataDesign()
 	}
 }
 
+//this function determine the name of the character that is playing based on its index
 void LevelData::NameOfCharacter()
 {
 	switch (m_player)
 	{
-	case 0:
-		m_currCharacter = "King";
-		break;
-	case 1:
-		m_currCharacter = "Mage";
-		break;
-	case 2:
-		m_currCharacter = "Warrior";
-		break;
-	case 3:
-		m_currCharacter = "Thief";
-		break;
+	case 0: m_currCharacter = "King"; break;
+	case 1: m_currCharacter = "Mage"; break;
+	case 2: m_currCharacter = "Warrior"; break;
+	case 3: m_currCharacter = "Thief"; break;
 	}
 }

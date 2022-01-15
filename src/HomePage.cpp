@@ -29,6 +29,8 @@ HomePage::HomePage(int width, int height)
 	// adjust the images to the window
 	initializeImage();
 }
+
+//this function prepares and initilize the menu buttons
 void HomePage::initializeButtonsVecs()
 {
 	auto startImg = sf::Sprite(m_startGame);
@@ -43,16 +45,13 @@ void HomePage::initializeButtonsVecs()
 	{
 		if (vec == 1) // vec 1: the buttons when the mouse cursor is on "start" button
 			m_homeButtonsVec[1].push_back(startImg2);
-		else
-			m_homeButtonsVec[vec].push_back(startImg);
+		else m_homeButtonsVec[vec].push_back(startImg);
 		if (vec == 2) // vec 2: the buttons when the mouse cursor is on "help" button
 			m_homeButtonsVec[2].push_back(helpImg2);
-		else
-			m_homeButtonsVec[vec].push_back(helpImg);
+		else m_homeButtonsVec[vec].push_back(helpImg);
 		if (vec == 3) // vec 3: the buttons when the mouse cursor is on "exit" button
 			m_homeButtonsVec[3].push_back(exitImg2);
-		else
-			m_homeButtonsVec[vec].push_back(exitImg);
+		else m_homeButtonsVec[vec].push_back(exitImg);
 	}
 }
 
@@ -71,7 +70,6 @@ void HomePage::stopMusic()
 void HomePage::initializeImage()
 {
 	for (int vec = 0; vec < 4; vec++)
-	{
 		for (int counter = 0; counter < BUTTONS; counter++)
 		{
 			sf::Vector2f toolLoc(float(m_dimentions.x / 2), float((m_dimentions.y / 6) * (counter + 1) + 200)); // +200 to print the buttons under the title "Save The King"
@@ -80,13 +78,10 @@ void HomePage::initializeImage()
 			m_homeButtonsVec[vec][counter].setPosition(toolLoc);
 			m_homeButtonsVec[vec][counter].scale(toolScale);
 		}
-	}
-
 }
 
 std::vector <sf::Sprite> HomePage::getHomeButtons(int buttonPressed) const
 {
-
 	switch (buttonPressed)
 	{
 	case START_GAME://if the user pressed the start button
@@ -111,30 +106,24 @@ bool HomePage::handleButtonsClick(const sf::Vector2f& location)
 {
 	m_buttonSound.play();
 	for (int index = 0; index < BUTTONS; index++)
-	{
 		if (m_homeButtonsVec[0][index].getGlobalBounds().contains(location))
-		{
 			switch (index)
 			{
 			case START_GAME://if the user pressed the start button
 				return true;
 			case SHOW_HELP://if the user pressed the help button
-				ShowHelp();
-				break;
+				ShowHelp(); break;
 			case EXIT_GAME: //if the user pressed the exit button
 				exit(0);
 			}
-		}
-	}
 	return false;
 }
 
+//this function handles the case if the mouse is moved on the buttons(it shows other version of the button)
 int HomePage::handleMouseMovedOnButtons(sf::Vector2f location)
 {
 	for (int index = 0; index < BUTTONS; index++)
-	{
 		if (m_homeButtonsVec[0][index].getGlobalBounds().contains(location))
-		{
 			switch (index)
 			{
 			case START_GAME://if the user pressed the start button
@@ -144,7 +133,5 @@ int HomePage::handleMouseMovedOnButtons(sf::Vector2f location)
 			case EXIT_GAME: //if the user pressed the exit button
 				return EXIT_GAME;
 			}
-		}
-	}
 	return NONE; //case of not moving on buttons
 }
