@@ -8,8 +8,8 @@ Board::Board() : m_player(0), m_timer(0), m_thiefHasKey(false), m_success(false)
     //set background
     m_background.loadFromFile("GameBackGround.jpg");
     m_clock.restart();
-    m_textures.resize(21); //20 = number of icons
-    m_SoundsBuffer.resize(13);
+    m_textures.resize(21); //21 = number of icons
+    m_SoundsBuffer.resize(13); //13 = number of sounds
     m_textures[KING].loadFromFile("King.png");
     m_textures[MAGE].loadFromFile("Mage.png");
     m_textures[WARRIOR].loadFromFile("Warrior.png");
@@ -71,8 +71,7 @@ void Board::readLevel(sf::Vector2u levelSize, int timer, std::ifstream& board_fi
 
     //start reading the level
     for (size_t j = 0; j < m_levelSize.y; j++)
-        for (size_t i = 0; i <= m_levelSize.x ; i++)
-        {
+        for (size_t i = 0; i <= m_levelSize.x ; i++) {
             c = char(board_file.get());
             if (c == 10 || c == -1) // 10 =\n , -1 = eof
                 break;
@@ -87,65 +86,44 @@ void Board::readChar(const char c, const size_t i, size_t& j)
     m_board.resize(m_levelSize.y);
     for (unsigned int index = 0; index < m_levelSize.y; index++)
         m_board[index].resize(m_levelSize.x);
-     
     m_characters.resize(4);
 
     if (c != '\n') //ignore the break
-    {
         switch (c) //based on the character that we read, create the appropriate object
         {
         case D_WALL:
-            m_board[j][i] = std::make_unique<Wall>(m_textures[WALL], float(i), float(j));
-            break;
+            m_board[j][i] = std::make_unique<Wall>(m_textures[WALL], float(i), float(j)); break;
         case D_FIRE:
-            m_board[j][i] = std::make_unique<Fire>(m_textures[FIRE], float(i), float(j));
-            break;
+            m_board[j][i] = std::make_unique<Fire>(m_textures[FIRE], float(i), float(j)); break;
         case D_ORC:
-            m_board[j][i] = std::make_unique<Orc>(m_textures[ORC], float(i), float(j));
-            break;
+            m_board[j][i] = std::make_unique<Orc>(m_textures[ORC], float(i), float(j)); break;
         case D_GATE:
-            m_board[j][i] = std::make_unique<Gate>(m_textures[GATE], float(i), float(j));
-            break;
+            m_board[j][i] = std::make_unique<Gate>(m_textures[GATE], float(i), float(j)); break;
         case D_TELEPORT_CELL:
             m_board[j][i] = std::make_unique<TeleportCell>(m_textures[TELEPORT_CELL], float(i), float(j));
-            m_TeleportCells.emplace_back(std::make_unique<TeleportCell>(m_textures[TELEPORT_CELL], float(i), float(j)));
-            break;
+            m_TeleportCells.emplace_back(std::make_unique<TeleportCell>(m_textures[TELEPORT_CELL], float(i), float(j))); break;
         case D_CHAIR:
-            m_board[j][i] = std::make_unique<Chair>(m_textures[CHAIR], float(i), float(j));
-            break;
+            m_board[j][i] = std::make_unique<Chair>(m_textures[CHAIR], float(i), float(j)); break;
         case D_UP_PRESENT:
-            m_board[j][i] = std::make_unique<IncreaseTimePresent>(m_textures[UP_PRESENT], float(i), float(j));
-            break;
+            m_board[j][i] = std::make_unique<IncreaseTimePresent>(m_textures[UP_PRESENT], float(i), float(j)); break;
         case D_DOWN_PRESENT:
-            m_board[j][i] = std::make_unique<DecreaseTimePresent>(m_textures[DOWN_PRESENT], float(i), float(j));
-            break;
+            m_board[j][i] = std::make_unique<DecreaseTimePresent>(m_textures[DOWN_PRESENT], float(i), float(j)); break;
         case D_KILL_PRESENT:
-            m_board[j][i] = std::make_unique<executeEnemyPresent>(m_textures[KILL_PRESENT], float(i), float(j));
-            break;
+            m_board[j][i] = std::make_unique<executeEnemyPresent>(m_textures[KILL_PRESENT], float(i), float(j)); break;
         case D_HEALING_KIT:
-            m_board[j][i] = std::make_unique<HealingKitPresent>(m_textures[HEALING_KIT], float(i), float(j));
-            break;
+            m_board[j][i] = std::make_unique<HealingKitPresent>(m_textures[HEALING_KIT], float(i), float(j)); break;
         case D_SPEEDUP_PRESENT:
-            m_board[j][i] = std::make_unique<SpeedUpPresent>(m_textures[SPEED_UP_PRESENT], float(i), float(j));
-            break;
+            m_board[j][i] = std::make_unique<SpeedUpPresent>(m_textures[SPEED_UP_PRESENT], float(i), float(j)); break;
         case D_KING:
-            m_characters[KING] = std::make_unique<King>(m_textures[KING], float(i), float(j));
-            break;
+            m_characters[KING] = std::make_unique<King>(m_textures[KING], float(i), float(j)); break;
         case D_MAGE:
-            m_characters[MAGE] = std::make_unique<Mage>(m_textures[MAGE], float(i), float(j));
-            break;
+            m_characters[MAGE] = std::make_unique<Mage>(m_textures[MAGE], float(i), float(j)); break;
         case D_WARRIOR:
-            m_characters[WARRIOR] = std::make_unique<Warrior>(m_textures[WARRIOR], float(i), float(j));
-            break;
+            m_characters[WARRIOR] = std::make_unique<Warrior>(m_textures[WARRIOR], float(i), float(j)); break;
         case D_THIEF:
-            m_characters[THIEF] =  std::make_unique<Thief>(m_textures[THIEF], float(i), float(j));
-            break;
+            m_characters[THIEF] =  std::make_unique<Thief>(m_textures[THIEF], float(i), float(j)); break;
         case D_GHOST:
-            m_enemies1.emplace_back(std::make_unique<Enemy>(m_textures[GHOST], float(i), float(j)));
-            break;
-        default:
-            break;
+            m_enemies1.emplace_back(std::make_unique<Enemy>(m_textures[GHOST], float(i), float(j))); break;
+        default: break;
         }
-    }
 }
-
