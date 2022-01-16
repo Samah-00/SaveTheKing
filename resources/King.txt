@@ -1,4 +1,4 @@
-Meet the king.
+Meet the King.
 He can walk on empty tiles.
 He can walk on keys but he can't pick them up.
 He can also travel through teleport cells.

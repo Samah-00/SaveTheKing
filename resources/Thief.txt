@@ -4,3 +4,4 @@ Keys appear on the board whenever the warrior kills an orc.
 A key appears in the hand of the thief when he collects one.
 He can walk on the clear way and he can use teleport cells.
 Note that the thief can carry only one key at a time.
+One key opens one gate, no special keys for each gate.

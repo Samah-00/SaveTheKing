@@ -1,4 +1,4 @@
-Meet the enemy.
+Meet the Enemy.
 Moving ghosts will block the way of the four characters.
 Each character has three lives, crashing into a ghost will
 decrease a life from the character.

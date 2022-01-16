@@ -1,4 +1,5 @@
-Meet the mage.
+Meet the Mage.
 His special ability is to put out fire by walking over it.
 He can walk on the clear way, fire, and keys.
+He can't pick up the keys nor open a gate.
 Finally, he can stand on teleport cells but can't use them.

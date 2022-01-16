@@ -1,4 +1,5 @@
 Meet the warrior.
 His special ability is to fight the orcs (by walking over them).
+He always wins the fight agains Orcs and kills them.
 He can walk on the clear way, orcs and keys.
-He can also use teleport cells.
+He can also teleport using the teleport cells.
