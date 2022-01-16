@@ -28,9 +28,8 @@ void Enemy::draw(sf::RenderWindow& window)
 //this function moves the enemies accoring to how much time has passed
 int Enemy::move(sf::Time deltaTime, const char* NextStep)
 {
-	int moveStatus = 0;
 	m_image.move(m_direction * m_enemySpeed * deltaTime.asSeconds());
-	return moveStatus;
+	return 0;
 }
 
 //this function sets the direction of the enemy object (right or left)
@@ -64,5 +63,5 @@ void Enemy::MoveEnemy(sf::Vector2u levelSize, const char* NextStep, sf::Vector2f
 			else
 				setCurrDir(72);
 	}
-	int moveStatus = move(deltaTime, NextStep);
+	move(deltaTime, NextStep);
 }
