@@ -37,10 +37,13 @@ bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
         if (auto event = sf::Event{}; window.pollEvent(event))
             switch (event.type)
             {
+
             case sf::Event::Closed: //if the user closes the window then close the window and exit
                 window.close();
                 break;
             case sf::Event::KeyPressed:
+                if (event.key.code == sf::Keyboard::Escape){
+                    window.close(); exit(1); }
                 handleKeyPressed(event.key.code);
                 break;
             }
