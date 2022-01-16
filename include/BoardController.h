@@ -2,6 +2,8 @@
 #include "Board.h"
 #include "levelData.h"
 
+const int INFO = 150;
+
 class BoardController : public Board
 {
 public:

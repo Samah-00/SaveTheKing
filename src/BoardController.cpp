@@ -4,11 +4,10 @@
 bool BoardController::startLevel(int LevelNum, bool timeLimitedLevel)
 {
     std::string titel = "Save The King - Level " + std::to_string(LevelNum);
-    sf::RenderWindow window(sf::VideoMode(m_levelSize.x * m_iconSize, m_levelSize.y * m_iconSize + 150), titel); // 150 : add space for level info
+    sf::RenderWindow window(sf::VideoMode(m_levelSize.x * m_iconSize, m_levelSize.y * m_iconSize + INFO), titel); // INFO : space for level info
     font1.loadFromFile("C:/Windows/Fonts/Arial.ttf");
     m_backgroundImg = sf::Sprite(m_background);
     m_arrow = sf::Sprite(m_textures[ARROW]);
-
     LevelData levelData(LevelNum, m_levelSize);
 
     while (window.isOpen())
