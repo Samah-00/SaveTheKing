@@ -51,6 +51,8 @@ How to play:
 To move between the four characters, press the p key on the keyboard. The default character is the king,
 (king --press p--> mage --press p--> warrior --press p--> thief --press p--> king again)
 To move a character, press the arrows' keys on the keyboard.
+If you want to exit the game, press "Escape" button.
+If you tried to close the game using the "X" in the window panel, this will reload the game.
 ---------------------------------------------------------------------------------------------------------
 ------------------------------------------------- Design ------------------------------------------------
 ---------------------------------------------------------------------------------------------------------
