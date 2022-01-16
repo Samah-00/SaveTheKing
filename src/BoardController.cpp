@@ -116,7 +116,7 @@ void BoardController::handleArrowPressed(sf::Keyboard::Key key)
     sf::Vector2f temp = pos + dir; //the new location that the character will go to
     if (round(temp.x) >= m_levelSize.x || round(temp.x) < 0 ||
         round(temp.y) >= m_levelSize.y || round(temp.y) < 0)
-        return;
+        return; //if the new position is outside the game then don't move
     handleNextStep(temp); //check the new location
 }
 
