@@ -9,8 +9,7 @@ void HelpController::showHelp()
 {
     sf::RenderWindow helpWindow(sf::VideoMode(m_width, m_hight), "Help");
     auto backgroundImg = sf::Sprite(m_background);  // set a background image for helpWindow
-    while (helpWindow.isOpen())
-    {
+    while (helpWindow.isOpen()) {
         helpWindow.clear();
         helpWindow.draw(backgroundImg);
         for (int index = 0; index < m_helpText.size(); index++)//draw the text
@@ -83,8 +82,7 @@ void HelpController::showInfo(const std::string info)
     auto backgroundImg = sf::Sprite(m_background);     // set background for infoWindow
     sf::RenderWindow infoWindow(sf::VideoMode(m_width, m_hight), info);
 
-    while (infoWindow.isOpen())
-    {
+    while (infoWindow.isOpen()) {
         infoWindow.clear();
         infoWindow.draw(backgroundImg);
         infoWindow.draw(m_backButton);
@@ -104,8 +102,7 @@ void HelpController::handleInfoEvents(sf::RenderWindow& infoWindow)
         case sf::Event::Closed:
             infoWindow.close(); break;
 
-        case sf::Event::MouseMoved:
-        {
+        case sf::Event::MouseMoved: {
             auto location = infoWindow.mapPixelToCoords({ event.mouseMove.x , event.mouseMove.y });
             if (m_backButton.getGlobalBounds().contains(location))
                 m_backButton.setTexture(m_backClickedTex);
@@ -113,8 +110,7 @@ void HelpController::handleInfoEvents(sf::RenderWindow& infoWindow)
         }
         case sf::Event::MouseButtonReleased: //if the user pressed the mouse button
             auto location = infoWindow.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
-            if (m_backButton.getGlobalBounds().contains(location))
-            {
+            if (m_backButton.getGlobalBounds().contains(location)) {
                 m_iconClickedSound.play();
                 infoWindow.close(); return;
             } break;

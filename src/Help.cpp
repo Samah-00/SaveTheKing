@@ -31,14 +31,12 @@ std::vector <sf::Text> Help::fillTextVec(const std::string fileName)
     std::vector <sf::Text> text_vec;
 
     data_file.open(fileName + ".txt");
-    while (!data_file.eof())
-    {
+    while (!data_file.eof()) {
         getline(data_file, line);
         text_vec.push_back(sf::Text(line, m_font));
     }
     //preparing the text to be printied on the screen
-    for (int index = 0; index < text_vec.size(); index++)
-    {
+    for (int index = 0; index < text_vec.size(); index++) {
         sf::Vector2f linePos(float(0), float(CHAR_SIZE * index));
         text_vec[index].setPosition(linePos);
         text_vec[index].setCharacterSize(25);
@@ -67,8 +65,7 @@ void Help::fillIconsVec()
     m_iconsVec.push_back(enemyImg);
 
     //preparing the characters' icons to be printied on the screen
-    for (int counter = 0; counter < m_iconsVec.size(); counter++)
-    {
+    for (int counter = 0; counter < m_iconsVec.size(); counter++) {
         sf::Vector2f iconLoc(float((m_width / NUM_OF_ICONS) * counter), float(CHAR_SIZE * (m_helpText.size() + 2))); //CHAR_WIDTH * m_helpText.size() to print the images under the text
         sf::Vector2f iconScale(0.3f, 0.3f);
         m_iconsVec[counter].setPosition(iconLoc);
@@ -85,4 +82,3 @@ void Help::createBackButton()
     m_backButton.setPosition(backLoc);
     m_backButton.scale(backScale);
 }
-

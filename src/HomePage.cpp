@@ -3,7 +3,6 @@
 #include <iostream>
 
 enum _CONSTS { BUTTONS = 3 };
-
 enum Buttons { START_GAME, SHOW_HELP, EXIT_GAME, NONE };
 
 //The c-tor of HomePage sets the width and height of the window of the HomePage
@@ -41,8 +40,7 @@ void HomePage::initializeButtonsVecs()
 	auto exitImg2 = sf::Sprite(m_exitGame2);
 
 	m_homeButtonsVec.resize(4);
-	for (int vec = 0; vec < m_homeButtonsVec.size(); vec++)
-	{
+	for (int vec = 0; vec < m_homeButtonsVec.size(); vec++) {
 		if (vec == 1) // vec 1: the buttons when the mouse cursor is on "start" button
 			m_homeButtonsVec[1].push_back(startImg2);
 		else m_homeButtonsVec[vec].push_back(startImg);
@@ -61,8 +59,7 @@ void HomePage::playMusic()
 	m_homePageMusic.setLoop(true);
 }
 
-void HomePage::stopMusic()
-{
+void HomePage::stopMusic() {
 	m_homePageMusic.stop();
 }
 
@@ -70,8 +67,7 @@ void HomePage::stopMusic()
 void HomePage::initializeImage()
 {
 	for (int vec = 0; vec < 4; vec++)
-		for (int counter = 0; counter < BUTTONS; counter++)
-		{
+		for (int counter = 0; counter < BUTTONS; counter++) {
 			sf::Vector2f toolLoc(float(m_dimentions.x / 2), float((m_dimentions.y / 6) * (counter + 1) + 200)); // +200 to print the buttons under the title "Save The King"
 			sf::Vector2f toolScale(0.7f, 0.7f);
 			m_homeButtonsVec[vec][counter].setOrigin(sf::Vector2f(m_homeButtonsVec[vec][counter].getTexture()->getSize() / 2u));

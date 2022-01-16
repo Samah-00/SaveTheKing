@@ -27,8 +27,7 @@ void LevelData::draw(sf::RenderWindow& window, sf::Clock clock)
 {
 	updateLevelData(clock);
 	setDataDesign();
-	for (int index = 0; index < m_titels.size(); index++)
-	{
+	for (int index = 0; index < m_titels.size(); index++) {
 		window.draw(m_titels[index]);
 		window.draw(m_data[index]);
 	}
@@ -62,8 +61,7 @@ void LevelData::updateLevelData(sf::Clock clock)
 void LevelData::setDataDesign()
 {
 	int num_of_data = m_timeLimitedLevel ? 6 : 5;
-	for (int counter = 0; counter < m_titels.size(); counter++)
-	{
+	for (int counter = 0; counter < m_titels.size(); counter++) {
 		sf::Vector2f titelLoc(float(((m_levelSize.x * 45) / num_of_data) * counter), float(45 * m_levelSize.y));
 		m_titels[counter].setPosition(titelLoc);
 		m_titels[counter].setCharacterSize(20);
