@@ -41,9 +41,6 @@ void Controller::operateGame()
             case sf::Event::MouseButtonReleased: //if the user pressed the mouse button
             {
                 auto location = m_window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
-                switch (event.mouseButton.button)
-                {
-                case sf::Mouse::Button::Left: //if the button that is pressed is the left button
                     if (m_home.handleButtonsClick(location))//if the start button is pressed then enter the loop
                     {
                         //close the HomePage window
@@ -54,8 +51,6 @@ void Controller::operateGame()
                         l.levelOperator();
                     }
                     break;
-                }
-                break;
             }
             case sf::Event::MouseMoved: //if the mouse moved on the window
             {
